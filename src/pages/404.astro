@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+---
+<Base title="Seite nicht gefunden | Früh Systems" description="Diese Seite gibt es bei Früh Systems nicht. Zur Startseite mit IT-Support für Private und KMU oder direkt Nick Früh anrufen." noindex>
+  <section class="section nf">
+    <div class="wrap measure">
+      <h1>Diese Seite gibt es nicht.</h1>
+      <p class="lead">Vielleicht hat sich die Adresse geändert. Auf der Startseite finden Sie alle Angebote und Preise.</p>
+      <div class="nf-actions">
+        <a class="btn btn-primary" href="/">Zur Startseite</a>
+        <a class="btn btn-ghost" href={site.phoneHref}>{site.phoneDisplay} anrufen</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf .wrap { display: grid; gap: var(--s-5); padding-block: var(--s-6); }
+  .nf h1 { font-size: var(--t-xl); }
+  .nf-actions { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+</style>

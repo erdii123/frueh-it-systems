@@ -1,0 +1,30 @@
+{
+  "name": "Früh Systems",
+  "owner": "Nick Früh",
+  "legalForm": "Einzelunternehmen mit Sitz in Islikon TG",
+  "uid": "CHE-411.363.294",
+  "hr": "CH-440.1.044.203-7",
+  "street": "Bleichewiesestrasse 5A",
+  "zip": "8546",
+  "city": "Islikon",
+  "phoneDisplay": "078 927 90 50",
+  "phoneIntl": "+41 78 927 90 50",
+  "phoneHref": "tel:+41789279050",
+  "email": "info@frueh-systems.ch",
+  "whatsapp": "https://wa.me/41789279050?text=Hallo%20Nick%2C%20ich%20brauche%20Hilfe%20mit%20meiner%20IT.",
+  "region": "Winterthur, Frauenfeld und Umgebung",
+  "experienceYears": 10,
+  "google": {
+    "rating": "5,0",
+    "count": 4,
+    "asOf": "Juli 2026",
+    "url": "https://www.google.com/maps?cid=11998682392917561940",
+    "quotes": [
+      { "text": "Top Service, schnell und zuverlässig.", "author": "Kay" },
+      { "text": "Exzellenter Service…", "author": "EchoBravo" },
+      { "text": "…schnelle Hilfe!", "author": "luscinia luna" }
+    ]
+  },
+  "anydesk": "https://anydesk.com/de/downloads",
+  "privacyUrl": "https://www.frueh-systems.ch/datenschutz"
+}

@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+---
+<Base title="Anfrage gesendet | Früh Systems" description="Ihre Anfrage an Früh Systems ist angekommen. Nick Früh meldet sich persönlich mit dem nächsten Schritt, per Telefon oder E-Mail." noindex>
+  <section class="section done">
+    <div class="wrap measure">
+      <div class="gradline"></div>
+      <h1>Danke, Ihre Anfrage ist angekommen.</h1>
+      <p class="lead">Ich schaue mir Ihr Anliegen an und melde mich persönlich mit dem nächsten Schritt.</p>
+      <p>Eilt es? Rufen Sie mich direkt an: <a href={site.phoneHref}>{site.phoneDisplay}</a></p>
+      <a class="btn btn-ghost" href="/">Zur Startseite</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .done .wrap { display: grid; gap: var(--s-5); justify-items: start; padding-block: var(--s-6); }
+  .done .gradline { width: 5rem; }
+  .done h1 { font-size: var(--t-xl); }
+</style>

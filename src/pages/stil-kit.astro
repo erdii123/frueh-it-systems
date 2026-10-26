@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import Fallfinder from '../components/Fallfinder.astro';
+const farben = [
+  ['Papier', '--paper', '#f4f6f5', 'Seitengrund'],
+  ['Fläche', '--surface', '#ffffff', 'Karten, Formular, Fusszeile'],
+  ['Tinte', '--ink', '#15181d', 'Text, Hauptknopf, KMU-Fläche'],
+  ['Text 2', '--ink-2', '#39404a', 'Fliesstext auf hell'],
+  ['Grau', '--muted', '#5a636e', 'Hinweise, Metadaten'],
+  ['Linie', '--line', '#dce1e4', 'Trennlinien, Rahmen'],
+  ['Grün', '--green', '#18b564', 'Logo-Verlauf, Häkchen'],
+  ['Grün Text', '--green-ink', '#0d7a42', 'Grüner Text (Kontrast AA)'],
+  ['Violett', '--violet', '#6235ed', 'Logo-Verlauf, Auswahl, Fokus'],
+];
+const typo = [
+  ['H1', 'var(--t-2xl)', 700, 'IT-Support für Private und KMU.'],
+  ['H2', 'var(--t-xl)', 650, 'So läuft eine Anfrage ab'],
+  ['H3', 'var(--t-md)', 650, 'Microsoft 365 und E-Mail'],
+  ['Lead', 'var(--t-md)', 400, 'Sie sprechen immer direkt mit mir.'],
+  ['Text', 'var(--t-base)', 400, 'Keine Arbeit ohne Ihre Freigabe. Zusätzlichen Aufwand stimme ich zuerst mit Ihnen ab.'],
+  ['Klein', 'var(--t-sm)', 400, 'Hardware, Lizenzen und Material nur nach Rücksprache.'],
+];
+---
+<Base title="Stil-Kit | Früh Systems" description="Internes Stil-Kit der Website von Früh Systems: Farben, Schrift, Abstände, Knöpfe, Formularelemente und der Fallfinder als Komponente." noindex>
+  <section class="section kit">
+    <div class="wrap kit-wrap">
+      <h1>Stil-Kit</h1>
+      <p class="lead">Grundlagen der Website von Früh Systems. Intern, nicht indexiert.</p>
+
+      <h2>Marke</h2>
+      <p>Wortmarke aus dem bestehenden Logo. Der Verlauf von Grün nach Violett stammt aus der Linie unter dem Logo und wird nur als Akzent eingesetzt: Fortschritt im Fallfinder, Linie über der Fusszeile, Kante an Preisboxen und Grundsätzen.</p>
+      <div class="gradline big"></div>
+
+      <h2>Farben</h2>
+      <ul class="swatches">
+        {farben.map(([n, v, hex, use]) => (
+          <li>
+            <span class="sw" style={`background: var(${v})`}></span>
+            <strong>{n}</strong>
+            <code>{hex}</code>
+            <span class="small muted">{use}</span>
+          </li>
+        ))}
+      </ul>
+
+      <h2>Schrift</h2>
+      <p>Instrument Sans (variabel, lokal eingebunden, font-display swap). Eine Familie, Hierarchie über Grösse und Gewicht, Skala 1.25.</p>
+      <div class="type">
+        {typo.map(([n, s, w, t]) => (
+          <div class="type-row">
+            <span class="small muted">{n}</span>
+            <p style={`font-size:${s};font-weight:${w};line-height:1.2;letter-spacing:${Number(w) > 600 ? '-0.02em' : '0'}`}>{t}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2>Knöpfe</h2>
+      <div class="row-demo">
+        <a class="btn btn-primary" href="#">Anfrage senden</a>
+        <a class="btn btn-ghost" href="#">078 927 90 50 anrufen</a>
+        <span class="dark-demo"><a class="btn btn-light" href="#">Als Firma anfragen</a></span>
+      </div>
+
+      <h2>Abstände</h2>
+      <div class="spaces">
+        {['--s-2', '--s-3', '--s-4', '--s-5', '--s-6', '--s-7', '--s-8'].map((s) => (
+          <div><span style={`width: var(${s})`}></span><code>{s}</code></div>
+        ))}
+      </div>
+
+      <h2>Fallfinder</h2>
+      <div class="finder-demo"><Fallfinder /></div>
+
+      <h2>Grundsätze</h2>
+      <ul class="rules">
+        <li>Preise sind sichtbar. Wer fragt, was es kostet, bekommt eine Zahl.</li>
+        <li>Ich-Form, Sie-Anrede, Schweizer Schreibweise (ss).</li>
+        <li>Nummern nur bei echten Abläufen. Keine Versal-Etiketten über Überschriften.</li>
+        <li>Bewegung nur als Antwort auf eine Auswahl, mit reduzierter Bewegung abgeschaltet.</li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .kit-wrap { display: grid; gap: var(--s-4); }
+  .kit h2 { margin-top: var(--s-6); }
+  .gradline.big { height: 10px; border-radius: 5px; }
+  .swatches { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--s-4); }
+  .swatches li { display: grid; gap: 2px; }
+  .sw { display: block; height: 4.5rem; border-radius: var(--r-md); border: 1px solid var(--line); margin-bottom: var(--s-2); }
+  code { font-size: var(--t-sm); }
+  .type { display: grid; gap: var(--s-4); }
+  .type-row { display: grid; grid-template-columns: 4rem 1fr; gap: var(--s-4); align-items: baseline; border-top: 1px solid var(--line); padding-top: var(--s-3); }
+  .row-demo { display: flex; flex-wrap: wrap; gap: var(--s-3); align-items: center; }
+  .dark-demo { background: var(--ink); padding: var(--s-3); border-radius: var(--r-md); }
+  .spaces { display: grid; gap: var(--s-2); }
+  .spaces div { display: flex; align-items: center; gap: var(--s-3); }
+  .spaces span { display: block; height: 1rem; background: var(--violet); border-radius: 2px; }
+  .finder-demo { max-width: 34rem; }
+  .rules { padding-left: 1.2rem; display: grid; gap: var(--s-2); }
+</style>

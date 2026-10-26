@@ -1,0 +1,207 @@
+---
+import site from '../data/site.json';
+import p from '../data/preise.json';
+
+const faelle = {
+  privat: [
+    { id: 'mail', label: 'E-Mail oder Outlook', weg: 'fern' },
+    { id: 'langsam', label: 'PC ist langsam oder zeigt Fehler', weg: 'fern' },
+    { id: 'sicherheit', label: 'Verdächtige Meldung, Virenverdacht', weg: 'fern' },
+    { id: 'drucker', label: 'Drucker druckt nicht', weg: 'fern' },
+    { id: 'wlan', label: 'WLAN oder Router', weg: 'vorort' },
+    { id: 'neu', label: 'Neues Gerät einrichten', weg: 'vorort' },
+    { id: 'startet', label: 'PC startet nicht mehr', weg: 'vorort' },
+  ],
+  firma: [
+    { id: 'm365', label: 'Outlook, E-Mail, Microsoft 365', weg: 'fern' },
+    { id: 'zugang', label: 'Passwort, Zugänge, neue Mitarbeitende', weg: 'fern' },
+    { id: 'programme', label: 'PC, Programme, Updates', weg: 'fern' },
+    { id: 'netz', label: 'Netzwerk, WLAN, Router', weg: 'vorort' },
+    { id: 'geraete', label: 'Drucker, Scanner, Arbeitsplätze', weg: 'vorort' },
+    { id: 'pingpong', label: 'Anbieter schieben sich den Fall zu', weg: 'koordination' },
+    { id: 'betreuung', label: 'Laufende Betreuung gesucht', weg: 'betreuung' },
+  ],
+};
+
+const wege = {
+  privat: {
+    fern: {
+      titel: 'Meist per Fernwartung lösbar',
+      text: 'Ich verbinde mich nach Ihrer Freigabe mit Ihrem Gerät. Sie sehen jeden Schritt am Bildschirm, ohne Anfahrt.',
+      preis: `CHF ${p.privat.fernwartung.preis}`,
+      preisText: `inklusive bis 45 Minuten, danach CHF ${p.privat.weitere15} je 15 Minuten`,
+    },
+    vorort: {
+      titel: 'Dafür komme ich zu Ihnen',
+      text: 'Termin und Anfahrt klären wir vorab. Vor Ort in Winterthur, Frauenfeld und Umgebung.',
+      preis: `CHF ${p.privat.vorOrt.preis}`,
+      preisText: `inklusive bis 45 Minuten, danach CHF ${p.privat.weitere15} je 15 Minuten, Anfahrt nach Absprache`,
+    },
+  },
+  firma: {
+    fern: {
+      titel: 'Häufig am schnellsten per Fernwartung',
+      text: 'Nach Ihrer Freigabe löse ich das direkt am Bildschirm. Kein Warten auf einen Termin vor Ort.',
+      preis: `CHF ${p.firma.stunde} pro Stunde`,
+      preisText: `abgerechnet in 15-Minuten-Schritten zu CHF ${p.firma.weitere15}`,
+    },
+    vorort: {
+      titel: 'Hier lohnt sich ein Termin vor Ort',
+      text: 'Netzwerk, Hardware und neue Arbeitsplätze prüfe ich direkt in Ihrem Büro.',
+      preis: `CHF ${p.firma.stunde} pro Stunde`,
+      preisText: `vor Ort mindestens ${p.firma.vorOrtMinimum}, danach in 15-Minuten-Schritten`,
+    },
+    koordination: {
+      titel: 'Ich übernehme die Koordination',
+      text: 'Ich nehme das Problem auf, kläre, wer zuständig ist, und spreche mit den Anbietern, bis der nächste Schritt klar ist.',
+      preis: `CHF ${p.firma.stunde} pro Stunde`,
+      preisText: 'nach Aufwand, ohne laufende Bindung',
+    },
+    betreuung: {
+      titel: 'Das Arbeitsplatzmodell',
+      text: 'Monitoring, Updates, Dokumentation, Microsoft-365-Basisadministration und 30 gepoolte Supportminuten pro Arbeitsplatz.',
+      preis: `ab CHF ${p.firma.arbeitsplatz}`,
+      preisText: 'pro Arbeitsplatz und Monat, schon ab einem Arbeitsplatz',
+    },
+  },
+};
+---
+<div class="finder" data-finder data-faelle={JSON.stringify(faelle)} data-wege={JSON.stringify(wege)}>
+  <div class="finder-progress" aria-hidden="true"><span></span></div>
+  <div class="finder-body">
+    <p class="finder-title" id="finder-title">Wobei brauchen Sie Hilfe?</p>
+
+    <fieldset class="step" data-step="1">
+      <legend>Für wen ist die Hilfe?</legend>
+      <div class="seg">
+        <label><input type="radio" name="fuer" value="privat" /><span>Für mich privat</span></label>
+        <label><input type="radio" name="fuer" value="firma" /><span>Für meine Firma</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="step" data-step="2" disabled>
+      <legend>Was funktioniert nicht?</legend>
+      <div class="chips" data-chips>
+        <p class="chips-empty muted small">Zuerst oben auswählen.</p>
+      </div>
+    </fieldset>
+
+    <div class="result" data-result aria-live="polite" hidden>
+      <p class="result-title" data-r-titel></p>
+      <p class="result-text" data-r-text></p>
+      <p class="result-price"><strong data-r-preis></strong> <span data-r-preistext></span></p>
+      <p class="result-note small muted">Keine Arbeit ohne Ihre Freigabe. Kosten klären wir vorher.</p>
+      <div class="result-actions">
+        <a class="btn btn-primary" href="#anfrage" data-r-anfrage>Diesen Fall anfragen</a>
+        <a class="btn btn-ghost" href={site.phoneHref}>{site.phoneDisplay} anrufen</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  type Fall = { id: string; label: string; weg: string };
+  const root = document.querySelector<HTMLElement>('[data-finder]');
+  if (root) {
+    const faelle = JSON.parse(root.dataset.faelle!) as Record<string, Fall[]>;
+    const wege = JSON.parse(root.dataset.wege!) as Record<string, Record<string, Record<string, string>>>;
+    const step2 = root.querySelector<HTMLFieldSetElement>('[data-step="2"]')!;
+    const chips = root.querySelector<HTMLElement>('[data-chips]')!;
+    const result = root.querySelector<HTMLElement>('[data-result]')!;
+    const q = (s: string) => root.querySelector<HTMLElement>(s)!;
+    let fuer = '';
+    let fall: Fall | null = null;
+
+    const progress = (n: number) => root.style.setProperty('--progress', String(n));
+
+    root.querySelectorAll<HTMLInputElement>('input[name="fuer"]').forEach((r) =>
+      r.addEventListener('change', () => {
+        fuer = r.value;
+        fall = null;
+        result.hidden = true;
+        step2.disabled = false;
+        chips.innerHTML = '';
+        faelle[fuer].forEach((f) => {
+          const l = document.createElement('label');
+          l.innerHTML = `<input type="radio" name="fall" value="${f.id}" /><span></span>`;
+          l.querySelector('span')!.textContent = f.label;
+          l.querySelector('input')!.addEventListener('change', () => choose(f));
+          chips.append(l);
+        });
+        progress(0.5);
+      })
+    );
+
+    function choose(f: Fall) {
+      fall = f;
+      const w = wege[fuer][f.weg];
+      q('[data-r-titel]').textContent = w.titel;
+      q('[data-r-text]').textContent = w.text;
+      q('[data-r-preis]').textContent = w.preis;
+      q('[data-r-preistext]').textContent = w.preisText;
+      result.hidden = false;
+      progress(1);
+    }
+
+    q('[data-r-anfrage]').addEventListener('click', () => {
+      if (!fall) return;
+      document.dispatchEvent(
+        new CustomEvent('anfrage:vorbelegen', { detail: { fuer, thema: fall.label } })
+      );
+    });
+  }
+</script>
+
+<style>
+  .finder {
+    --progress: 0;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+    box-shadow: 0 1px 0 rgb(21 24 29 / 0.04), 0 24px 48px -28px rgb(21 24 29 / 0.28);
+    overflow: hidden;
+  }
+  .finder-progress { height: 5px; background: var(--line); }
+  .finder-progress span {
+    display: block; height: 100%; background: var(--grad);
+    clip-path: inset(0 calc((1 - max(var(--progress), 0.05)) * 100%) 0 0);
+    transition: clip-path .5s cubic-bezier(.2,.7,.2,1);
+  }
+  @media (prefers-reduced-motion: reduce) { .finder-progress span { transition: none; } }
+  .finder-body { padding: clamp(1.25rem, 1rem + 1.5vw, 2rem); display: grid; gap: var(--s-5); }
+  .finder-title { font-size: var(--t-lg); font-weight: 650; letter-spacing: -0.02em; line-height: 1.2; }
+  fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+  legend { font-weight: 600; margin-bottom: var(--s-3); padding: 0; }
+  fieldset:disabled legend { color: var(--muted); }
+
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-2); }
+  .seg label, .chips :global(label) { position: relative; cursor: pointer; }
+  .seg input, .chips :global(input) { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .seg span {
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    min-height: 52px; padding: var(--s-2) var(--s-3); border: 1.5px solid var(--line); border-radius: var(--r-md);
+    font-weight: 600; transition: border-color .15s, background-color .15s;
+  }
+  .seg label:hover span { border-color: var(--ink); }
+  .seg input:checked + span { border-color: var(--ink); background: var(--ink); color: #fff; }
+  .seg input:focus-visible + span, .chips :global(input:focus-visible + span) { box-shadow: var(--focus); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  .chips :global(span) {
+    display: inline-flex; align-items: center; min-height: 44px; padding: var(--s-2) var(--s-4);
+    border: 1.5px solid var(--line); border-radius: 999px; font-size: 0.95rem; line-height: 1.3;
+    transition: border-color .15s, background-color .15s;
+  }
+  .chips :global(label:hover span) { border-color: var(--ink); }
+  .chips :global(input:checked + span) { border-color: var(--violet); background: color-mix(in srgb, var(--violet) 9%, white); color: var(--violet-ink); font-weight: 600; }
+
+  .result {
+    border-top: 1px solid var(--line); padding-top: var(--s-5);
+    display: grid; gap: var(--s-2);
+  }
+  .result-title { font-size: var(--t-md); font-weight: 650; }
+  .result-text { color: var(--ink-2); }
+  .result-price { margin-top: var(--s-2); }
+  .result-price strong { font-size: var(--t-lg); letter-spacing: -0.02em; margin-right: var(--s-1); }
+  .result-price span { color: var(--ink-2); }
+  .result-actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-3); }
+  @media (max-width: 420px) { .result-actions .btn { width: 100%; } }
+</style>

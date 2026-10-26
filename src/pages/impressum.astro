@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+---
+<Base title="Impressum | Früh Systems" description="Impressum und rechtliche Angaben zu Früh Systems, Einzelunternehmen von Nick Früh in 8546 Islikon TG, mit UID, Handelsregister und Kontakt.">
+  <section class="section legal">
+    <div class="wrap measure">
+      <h1>Impressum</h1>
+      <p class="lead">Angaben zum Unternehmen und zur verantwortlichen Person hinter Früh Systems.</p>
+
+      <h2>Unternehmen</h2>
+      <p>
+        <strong>{site.name}</strong><br />
+        Inhaber: {site.owner}<br />
+        {site.street}<br />
+        {site.zip} {site.city}<br />
+        Schweiz
+      </p>
+      <p>
+        {site.legalForm}<br />
+        UID: {site.uid}<br />
+        Handelsregister-Nr.: {site.hr}
+      </p>
+
+      <h2>Kontakt</h2>
+      <p>
+        Telefon: <a href={site.phoneHref}>{site.phoneIntl}</a><br />
+        E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
+
+      <h2>Haftung für Inhalte und Links</h2>
+      <p>
+        Die Inhalte dieser Website werden mit Sorgfalt gepflegt. Früh Systems übernimmt jedoch keine Gewähr für deren
+        Vollständigkeit, Richtigkeit oder Aktualität. Verweise auf externe Websites liegen ausserhalb des eigenen
+        Verantwortungsbereichs. Für deren Inhalte und Datenschutzpraktiken sind die jeweiligen Betreiber verantwortlich.
+      </p>
+
+      <h2>Urheberrecht</h2>
+      <p>
+        Inhalte, Gestaltung und eigene Werke auf dieser Website unterliegen dem schweizerischen Urheberrecht. Eine
+        Verwendung ausserhalb der gesetzlichen Schranken bedarf der vorherigen Zustimmung von Früh Systems.
+      </p>
+
+      <h2>Gestaltung und Umsetzung</h2>
+      <p><a href="https://bilegflow.ch">Bilegflow</a>, Erdem Bileg</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal .wrap { display: grid; gap: var(--s-4); }
+  .legal h1 { font-size: var(--t-xl); }
+  .legal h2 { font-size: var(--t-md); margin-top: var(--s-5); }
+</style>
