@@ -95,7 +95,6 @@ const nav = [
 
   <footer class="site-footer">
     <div class="wrap">
-      <Image src={logo} alt="" width={1200} widths={[600, 1200]} sizes="(max-width: 1200px) 92vw, 1150px" class="footer-mark" />
       <div class="footer-grid">
         <div>
           <Image src={logo} alt="Früh Systems" width={150} densities={[1, 2]} class="footer-logo" />
@@ -241,7 +240,6 @@ const nav = [
   }
 
   .site-footer { padding-top: var(--s-8); }
-  .site-footer :global(.footer-mark) { width: 100%; height: auto; opacity: 0.1; filter: grayscale(1); margin-bottom: var(--s-7); }
   .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--s-6); padding-bottom: var(--s-6); }
   .footer-grid :global(.footer-logo) { width: 150px; margin-bottom: var(--s-3); }
   .footer-h { font-size: var(--t-sm); font-weight: 600; color: var(--muted); margin-bottom: var(--s-3); letter-spacing: 0; }

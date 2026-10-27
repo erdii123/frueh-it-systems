@@ -4,7 +4,7 @@
 Besucher in wenigen Sekunden auf den richtigen Weg bringen: privat oder Firma, Fernwartung oder vor Ort, was es kostet. Danach direkt zu Nick (Anruf, WhatsApp, Formular).
 
 ## Stand Runde 01 (27.10.2026)
-Mischung mit Nicks Demo-Seite (demonick.vercel.app): dunkler Hero mit Glasbild, schwebender Header, Zielgruppen-Karten Lila/Mint, Leistungs-Tabs mit Mini-Diagramm, Preis-Umschalter mit Rechner, Ablauf auf Mint, dunkler Kontaktblock, grosse Wortmarke im Footer. Fakten und Preise gelten nach frueh-systems.ch. Keine Versal-Etiketten, kein WebGL.
+Mischung mit Nicks Demo-Seite (demonick.vercel.app): dunkler Hero mit Glasbild, schwebender Header, Zielgruppen-Karten Lila/Mint, Leistungs-Tabs mit Mini-Diagramm, Preis-Umschalter mit Rechner, Ablauf auf Mint, dunkler Kontaktblock. (Grosse Wortmarke im Footer in Runde 03 entfernt.) Fakten und Preise gelten nach frueh-systems.ch. Keine Versal-Etiketten, kein WebGL.
 
 ## Stand Runde 02 (27.10.2026)
 Einheitliche Masse: Knöpfe 48 px (`--h-btn`), Wahlfelder 44 px (`--h-chip`), Innenabstand Karten `--pad-card`, Navy-Blöcke so breit wie Header und Karten (`.panel`). Fallfinder-Fälle als 2-Spalten-Raster gleich grosser Kacheln. Mobiles Menü als Vollbild in Navy.
