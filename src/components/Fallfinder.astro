@@ -27,41 +27,41 @@ const wege = {
   privat: {
     fern: {
       titel: 'Meist per Fernwartung lösbar',
-      text: 'Ich verbinde mich nach Ihrer Freigabe mit Ihrem Gerät. Sie sehen jeden Schritt am Bildschirm, ohne Anfahrt.',
+      text: 'Nach Ihrer Freigabe, Sie sehen jeden Schritt.',
       preis: `CHF ${p.privat.fernwartung.preis}`,
-      preisText: `inklusive bis 45 Minuten, danach CHF ${p.privat.weitere15} je 15 Minuten`,
+      preisText: `bis 45 Minuten, danach CHF ${p.privat.weitere15} je 15 Minuten`,
     },
     vorort: {
       titel: 'Dafür komme ich zu Ihnen',
-      text: 'Termin und Anfahrt klären wir vorab. Vor Ort in Winterthur, Frauenfeld und Umgebung.',
+      text: 'In Winterthur, Frauenfeld und Umgebung.',
       preis: `CHF ${p.privat.vorOrt.preis}`,
-      preisText: `inklusive bis 45 Minuten, danach CHF ${p.privat.weitere15} je 15 Minuten, Anfahrt nach Absprache`,
+      preisText: `bis 45 Minuten, danach CHF ${p.privat.weitere15} je 15 Minuten, Anfahrt nach Absprache`,
     },
   },
   firma: {
     fern: {
       titel: 'Häufig am schnellsten per Fernwartung',
-      text: 'Nach Ihrer Freigabe löse ich das direkt am Bildschirm. Kein Warten auf einen Termin vor Ort.',
+      text: 'Direkt am Bildschirm, nach Ihrer Freigabe.',
       preis: `CHF ${p.firma.stunde} pro Stunde`,
-      preisText: `abgerechnet in 15-Minuten-Schritten zu CHF ${p.firma.weitere15}`,
+      preisText: `in 15-Minuten-Schritten`,
     },
     vorort: {
       titel: 'Hier lohnt sich ein Termin vor Ort',
-      text: 'Netzwerk, Hardware und neue Arbeitsplätze prüfe ich direkt in Ihrem Büro.',
+      text: 'Ich prüfe das direkt in Ihrem Büro.',
       preis: `CHF ${p.firma.stunde} pro Stunde`,
-      preisText: `vor Ort mindestens ${p.firma.vorOrtMinimum}, danach in 15-Minuten-Schritten`,
+      preisText: `vor Ort mindestens ${p.firma.vorOrtMinimum}`,
     },
     koordination: {
       titel: 'Ich übernehme die Koordination',
-      text: 'Ich nehme das Problem auf, kläre, wer zuständig ist, und spreche mit den Anbietern, bis der nächste Schritt klar ist.',
+      text: 'Ich kläre mit den Anbietern, wer zuständig ist.',
       preis: `CHF ${p.firma.stunde} pro Stunde`,
       preisText: 'nach Aufwand, ohne laufende Bindung',
     },
     betreuung: {
       titel: 'Das Arbeitsplatzmodell',
-      text: 'Monitoring, Updates, Dokumentation, Microsoft-365-Basisadministration und 30 gepoolte Supportminuten pro Arbeitsplatz.',
+      text: 'Monitoring, Updates, Dokumentation und 30 Supportminuten pro Arbeitsplatz.',
       preis: `ab CHF ${p.firma.arbeitsplatz}`,
-      preisText: 'pro Arbeitsplatz und Monat, schon ab einem Arbeitsplatz',
+      preisText: 'pro Arbeitsplatz und Monat',
     },
   },
 };
@@ -82,7 +82,7 @@ const wege = {
     <fieldset class="step" data-step="2" disabled>
       <legend>Was funktioniert nicht?</legend>
       <div class="chips" data-chips>
-        <p class="chips-empty muted small">Zuerst oben auswählen.</p>
+        <p class="chips-empty muted small">Bitte zuerst oben wählen.</p>
       </div>
     </fieldset>
 
@@ -90,10 +90,9 @@ const wege = {
       <p class="result-title" data-r-titel></p>
       <p class="result-text" data-r-text></p>
       <p class="result-price"><strong data-r-preis></strong> <span data-r-preistext></span></p>
-      <p class="result-note small muted">Keine Arbeit ohne Ihre Freigabe. Kosten klären wir vorher.</p>
       <div class="result-actions">
         <a class="btn btn-primary" href="#anfrage" data-r-anfrage>Diesen Fall anfragen</a>
-        <a class="btn btn-ghost" href={site.phoneHref}>{site.phoneDisplay} anrufen</a>
+        <a class="btn btn-ghost" href={site.phoneHref}>Anrufen</a>
       </div>
     </div>
   </div>
@@ -155,8 +154,9 @@ const wege = {
 <style>
   .finder {
     --progress: 0;
+    color: var(--ink);
     background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
-    box-shadow: 0 1px 0 rgb(21 24 29 / 0.04), 0 24px 48px -28px rgb(21 24 29 / 0.28);
+    box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.6);
     overflow: hidden;
   }
   .finder-progress { height: 5px; background: var(--line); }

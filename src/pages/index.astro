@@ -1,8 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 import Fallfinder from '../components/Fallfinder.astro';
+import Icon from '../components/Icon.astro';
 import { Image } from 'astro:assets';
 import nick from '../assets/nick-frueh.jpg';
+import glas from '../assets/hero-glas.webp';
 import site from '../data/site.json';
 import p from '../data/preise.json';
 
@@ -11,40 +13,35 @@ const description =
   'Persönlicher IT-Support von Nick Früh für Private und KMU: Computer, E-Mail, WLAN, Microsoft 365. Vor Ort in Winterthur und Frauenfeld, Fernwartung schweizweit.';
 
 const leistungen = [
-  { t: 'IT-Support und Arbeitsplätze', d: 'PCs, Benutzerzugänge, Programme, Updates und neue Arbeitsplätze inklusive Datenübernahme.' },
-  { t: 'Microsoft 365 und E-Mail', d: 'Outlook, Teams, OneDrive, Konten, Lizenzen und nachvollziehbare Berechtigungen.' },
-  { t: 'Backup und Wiederherstellung', d: 'Wichtige Daten erkennen, Sicherungen planen und prüfen, Wiederherstellung vorbereiten.' },
-  { t: 'IT-Sicherheit', d: 'Mehrstufige Anmeldung, Updates und saubere Berechtigungen für Konten und Geräte.' },
-  { t: 'Netzwerk und WLAN', d: 'Router, Switches, WLAN-Abdeckung, Gästezugänge und VPN.' },
-  { t: 'Geräte und Hardware', d: 'Passende Geräte auswählen, vorbereiten und in die bestehende Umgebung einbinden.' },
-  { t: 'Software-Testing', d: 'Manuelle Tests von Applikationen und Webanwendungen mit nachvollziehbaren Fehlerberichten.' },
+  { id: 'arbeitsplatz', icon: 'monitor', tab: 'IT-Support und Arbeitsplätze', titel: 'Ein Arbeitsplatz, der für Sie arbeitet.',
+    punkte: ['PCs, Programme und Drucker einrichten', 'Benutzerzugänge und Updates betreuen', 'Daten auf neue Geräte übernehmen'],
+    mitte: 'Ihr Arbeitsplatz', teile: ['Geräte', 'Programme', 'Zugänge'] },
+  { id: 'm365', icon: 'apps', tab: 'Microsoft 365 und E-Mail', titel: 'Ihr Team. Gut verbunden.',
+    punkte: ['Outlook, Teams und OneDrive einrichten', 'Benutzerwechsel sauber begleiten', 'Konten, Lizenzen und Berechtigungen ordnen'],
+    mitte: 'Microsoft 365', teile: ['Outlook', 'Teams', 'OneDrive'] },
+  { id: 'backup', icon: 'backup', tab: 'Backup und Wiederherstellung', titel: 'Wichtiges sichern. Rückweg vorbereiten.',
+    punkte: ['Wichtige Daten erkennen', 'Sicherungen planen und prüfen', 'Wiederherstellung vorbereiten'],
+    mitte: 'Ihre Datensicherung', teile: ['Daten', 'Sicherung', 'Rückweg'] },
+  { id: 'sicherheit', icon: 'shield', tab: 'IT-Sicherheit', titel: 'Mehr Schutz. Weniger offene Fragen.',
+    punkte: ['Mehrstufige Anmeldung einrichten', 'Updates und Berechtigungen prüfen', 'Zugriffe sinnvoll begrenzen'],
+    mitte: 'Ihr Grundschutz', teile: ['Anmeldung', 'Updates', 'Rechte'] },
+  { id: 'netzwerk', icon: 'wifi', tab: 'Netzwerk und WLAN', titel: 'Verbindung, wo Sie sie brauchen.',
+    punkte: ['Router, Switches und WLAN', 'Abdeckung und Verbindung verbessern', 'Gästezugänge und VPN'],
+    mitte: 'Ihr Netzwerk', teile: ['Router', 'WLAN', 'Gäste'] },
+  { id: 'geraete', icon: 'laptop', tab: 'Geräte und Hardware', titel: 'Das passende Gerät, sauber eingerichtet.',
+    punkte: ['Fehler an PC und Laptop finden', 'Reparatur oder neues Gerät abwägen', 'Einrichten und Daten übernehmen'],
+    mitte: 'Ihr Gerät', teile: ['Diagnose', 'Entscheid', 'Einrichtung'] },
+  { id: 'testing', icon: 'test', tab: 'Software-Testing', titel: 'Fehler finden, bevor Ihre Kunden es tun.',
+    punkte: ['Funktionen und Abläufe manuell testen', 'Nachvollziehbare Fehlerberichte', 'Nachtests nach Korrekturen'],
+    mitte: 'Ihre Anwendung', teile: ['Test', 'Bericht', 'Nachtest'] },
 ];
 
 const faq = [
-  {
-    q: 'Muss ich wissen, ob Fernwartung oder ein Termin vor Ort nötig ist?',
-    a: 'Nein. Beschreiben Sie kurz, was nicht funktioniert. Ich empfehle Ihnen den passenden Weg und nenne die Kosten, bevor ich anfange.',
-  },
-  {
-    q: 'Ist Fernwartung sicher?',
-    a: 'Die Verbindung startet nur nach vorherigem Kontakt und Ihrer ausdrücklichen Freigabe. Sie sehen jeden Schritt, können die Sitzung jederzeit beenden und geben Passwörter selbst ein. Danach habe ich keinen Zugriff mehr auf Ihr Gerät.',
-  },
-  {
-    q: 'Welche Angaben helfen bei einer Anfrage?',
-    a: 'Welches Gerät oder Programm betroffen ist, seit wann das Problem besteht und der genaue Wortlaut einer Fehlermeldung. Ein Foto der Meldung per WhatsApp genügt oft. Bitte senden Sie keine Passwörter.',
-  },
-  {
-    q: 'Kann ich als Firma mit einem einzelnen Fall starten?',
-    a: 'Ja. Sie können mit einem einzelnen Gerät oder Supportfall beginnen, ohne eine laufende Betreuung abzuschliessen.',
-  },
-  {
-    q: 'Gibt es eine feste Reaktionszeit?',
-    a: 'Anfragen bearbeite ich nach Dringlichkeit und Verfügbarkeit. Verbindliche Reaktionszeiten vereinbaren wir bei Bedarf individuell.',
-  },
-  {
-    q: 'Was ist nicht im Preis enthalten?',
-    a: 'Hardware, Softwarelizenzen, Abos, Material, Leistungen Dritter und die Anfahrt. Diese Positionen nenne ich Ihnen vorab und berechne sie nur nach Rücksprache.',
-  },
+  { q: 'Ich weiss nicht genau, was das Problem ist.', a: 'Das müssen Sie nicht. Beschreiben Sie, was Sie beobachten. Ich kläre die Ursache und den nächsten Schritt.' },
+  { q: 'Wie funktioniert die Fernwartung?', a: 'Der Computer muss starten und online sein. Die Verbindung beginnt erst nach Ihrer Freigabe, Sie sehen jeden Schritt und können jederzeit beenden.' },
+  { q: 'Kann ich einmalig Hilfe anfragen?', a: 'Ja. Firmen nutzen Support nach Aufwand ohne Bindung. Privatpersonen wählen Fernwartung, vor Ort oder das 3-Stunden-Guthaben.' },
+  { q: 'Was passiert, bevor Kosten entstehen?', a: 'Vorgehen und mögliche Zusatzkosten bespreche ich vorher. Ich beginne erst nach Ihrer Freigabe.' },
+  { q: 'Wie schnell bekomme ich Hilfe?', a: 'Nach Dringlichkeit und Verfügbarkeit. Feste Reaktionszeiten vereinbare ich bei Bedarf mit Ihnen.' },
 ];
 
 const schema = {
@@ -60,288 +57,271 @@ const schema = {
       telephone: site.phoneIntl,
       email: site.email,
       founder: { '@type': 'Person', name: site.owner },
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: site.street,
-        postalCode: site.zip,
-        addressLocality: site.city,
-        addressRegion: 'TG',
-        addressCountry: 'CH',
-      },
-      areaServed: [
-        { '@type': 'City', name: 'Winterthur' },
-        { '@type': 'City', name: 'Frauenfeld' },
-        { '@type': 'Country', name: 'Schweiz' },
-      ],
+      address: { '@type': 'PostalAddress', streetAddress: site.street, postalCode: site.zip, addressLocality: site.city, addressRegion: 'TG', addressCountry: 'CH' },
+      areaServed: [{ '@type': 'City', name: 'Winterthur' }, { '@type': 'City', name: 'Frauenfeld' }, { '@type': 'Country', name: 'Schweiz' }],
       priceRange: 'CHF 90–140',
       vatID: site.uid,
     },
     {
       '@type': 'FAQPage',
-      mainEntity: faq.map((f) => ({
-        '@type': 'Question',
-        name: f.q,
-        acceptedAnswer: { '@type': 'Answer', text: f.a },
-      })),
+      mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
     },
   ],
 };
 ---
 <Base title={title} description={description} schema={schema}>
   <!-- Hero -->
-  <section class="hero">
+  <section class="hero on-dark">
+    <div class="hero-art" aria-hidden="true">
+      <Image src={glas} alt="" widths={[768, 1280, 1536]} sizes="(max-width: 900px) 150vw, 78vw" loading="eager" fetchpriority="high" />
+    </div>
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <p class="hero-region">Aus Islikon für Winterthur, Frauenfeld und Umgebung</p>
-        <h1>IT-Support für Private und KMU. Persönlich von Nick Früh.</h1>
-        <p class="lead">
-          Computer, E-Mail, WLAN oder Microsoft 365: Ich löse das Problem per Fernwartung oder komme zu Ihnen.
-          Sie sprechen immer direkt mit mir und wissen vorher, was es kostet.
-        </p>
+        <h1>IT, die einfach läuft.</h1>
+        <p class="hero-sub">Persönlicher IT-Support für Private und KMU in Winterthur, Frauenfeld und Umgebung. Per Fernwartung in der ganzen Schweiz.</p>
         <div class="hero-person">
           <Image src={nick} alt="" width={56} height={56} densities={[1, 2]} class="hero-avatar" loading="eager" />
-          <ul class="hero-facts">
-            <li>
-              <a href={site.google.url} rel="noopener" class="stars-link">
-                <span class="stars" aria-hidden="true">★★★★★</span>
-                {site.google.rating} bei {site.google.count} Google-Bewertungen
-              </a>
-            </li>
-            <li>{site.experienceYears} Jahre IT-Erfahrung</li>
-          </ul>
+          <div>
+            <p class="hero-name">Nick Früh, Ihr direkter Ansprechpartner</p>
+            <a href={site.google.url} rel="noopener" class="stars-link"><span class="stars" aria-hidden="true">★★★★★</span> {site.google.rating} auf Google</a>
+          </div>
         </div>
       </div>
       <Fallfinder />
     </div>
-  </section>
-
-  <!-- Zwei Wege -->
-  <section class="section paths" aria-label="Angebote und Preise">
-    <div class="wrap paths-grid">
-      <article class="path path-privat" id="privat">
-        <h2>Für Privatpersonen</h2>
-        <p class="path-intro">
-          PC oder Laptop streikt, das WLAN bricht ab, der Drucker will nicht oder ein neues Gerät soll eingerichtet werden.
-          Ich erkläre verständlich, was los ist, und löse es.
-        </p>
-        <dl class="prices">
-          <div><dt>Fernwartung</dt><dd><strong>CHF {p.privat.fernwartung.preis}</strong><span>bis 45 Minuten inklusive</span></dd></div>
-          <div><dt>Vor Ort</dt><dd><strong>CHF {p.privat.vorOrt.preis}</strong><span>bis 45 Minuten inklusive, Anfahrt nach Absprache</span></dd></div>
-          <div><dt>Jede weitere Viertelstunde</dt><dd><strong>CHF {p.privat.weitere15}</strong></dd></div>
-        </dl>
-        <div class="credit">
-          <p class="credit-title">3-Stunden-Guthaben <strong>CHF {p.privat.guthaben.preis}</strong></p>
-          <p class="small">180 Minuten Supportzeit für mehrere kleine Anliegen oder den ganzen Familienhaushalt. In 15-Minuten-Schritten nutzbar, {p.privat.guthaben.gueltig} gültig, kein Abo.</p>
-        </div>
-        <p class="small muted">Hardware, Lizenzen, Ersatzteile und Material nur nach Rücksprache.</p>
-        <a class="btn btn-primary" href="#anfrage" data-vorbelegen="privat">Als Privatperson anfragen</a>
-      </article>
-
-      <article class="path path-firma" id="unternehmen">
-        <h2>Für Unternehmen und KMU</h2>
-        <p class="path-intro">
-          Ein Ansprechpartner für Ihre IT, auch ohne eigene IT-Abteilung. Für einzelne Supportfälle oder die laufende Betreuung Ihrer Arbeitsplätze.
-        </p>
-        <dl class="prices">
-          <div><dt>Support nach Aufwand</dt><dd><strong>CHF {p.firma.stunde}</strong><span>pro Stunde, in 15-Minuten-Schritten zu CHF {p.firma.weitere15}</span></dd></div>
-          <div><dt>Vor Ort</dt><dd><strong>ab 1 Stunde</strong><span>Mindestverrechnung pro Einsatz</span></dd></div>
-        </dl>
-        <div class="credit credit-dark">
-          <p class="credit-title">Betreuter Arbeitsplatz <strong>ab CHF {p.firma.arbeitsplatz}</strong><span class="per">pro Monat</span></p>
-          <ul class="checks small">
-            {p.firma.arbeitsplatzInklusive.map((i) => <li>{i}</li>)}
-          </ul>
-          <p class="small on-dark-muted">Schon ab einem Arbeitsplatz. Keine Flatrate: Den genauen Umfang offeriere ich nach einer kurzen Bestandsaufnahme.</p>
-        </div>
-        <a class="btn btn-light" href="#anfrage" data-vorbelegen="firma">Als Firma anfragen</a>
-      </article>
-    </div>
-  </section>
-
-  <!-- Pingpong -->
-  <section class="section pingpong">
-    <div class="wrap pingpong-grid">
-      <div class="section-head">
-        <h2>Schluss mit dem Zuständigkeits-Pingpong.</h2>
-        <p>
-          Die Branchensoftware verweist auf den Internetanbieter, der auf Microsoft, und am Ende vermittelt Ihr Team.
-          Ich nehme das Problem an einer Stelle auf, kläre, wer zuständig ist, und koordiniere die Beteiligten bis zum nächsten klaren Schritt.
-        </p>
-        <p class="small muted">
-          Herstellerzugänge und Spezialleistungen bleiben beim jeweiligen Anbieter. Ich halte Sie aus dem Weiterreichen heraus.
-        </p>
-      </div>
-      <figure class="hub" aria-label="Ihr Team hat einen Kontakt, Nick Früh koordiniert Internetanbieter, Microsoft 365, Branchensoftware, Telefonie und Hardware">
-        <svg viewBox="0 0 540 360" aria-hidden="true">
-          <defs>
-            <linearGradient id="hubgrad" gradientUnits="userSpaceOnUse" x1="118" x2="186" y1="0" y2="0">
-              <stop offset="0" stop-color="#18b564" /><stop offset="1" stop-color="#6235ed" />
-            </linearGradient>
-          </defs>
-          <g fill="none" stroke="#c9d0d5" stroke-width="1.5">
-            <path d="M254 180 C 320 180, 320 50, 370 50" />
-            <path d="M254 180 C 320 180, 320 115, 370 115" />
-            <path d="M254 180 L 370 180" />
-            <path d="M254 180 C 320 180, 320 245, 370 245" />
-            <path d="M254 180 C 320 180, 320 310, 370 310" />
-          </g>
-          <path d="M118 180 L 186 180" stroke="url(#hubgrad)" stroke-width="4" stroke-linecap="round" />
-          <g font-family="Instrument Sans Variable, system-ui, sans-serif" font-size="15" fill="#15181d">
-            <rect x="8" y="152" width="110" height="56" rx="12" fill="#fff" stroke="#15181d" stroke-width="1.5" />
-            <text x="63" y="185" text-anchor="middle" font-weight="600">Ihr Team</text>
-            <circle cx="220" cy="180" r="34" fill="#15181d" />
-            <text x="220" y="185" text-anchor="middle" fill="#fff" font-weight="650">Nick</text>
-            {[
-              ['Internetanbieter', 50], ['Microsoft 365', 115], ['Branchensoftware', 180], ['Telefonie', 245], ['Drucker und Hardware', 310],
-            ].map(([t, y]) => (
-              <g>
-                <rect x="370" y={Number(y) - 18} width="164" height="36" rx="18" fill="#fff" stroke="#dce1e4" />
-                <text x="452" y={Number(y) + 5} text-anchor="middle" font-size="14">{t}</text>
-              </g>
-            ))}
-          </g>
-        </svg>
-        <div class="hub-stack" aria-hidden="true">
-          <span class="hs-team">Ihr Team</span>
-          <span class="hs-line"></span>
-          <span class="hs-nick">Nick</span>
-          <ul>
-            {['Internetanbieter', 'Microsoft 365', 'Branchensoftware', 'Telefonie', 'Drucker und Hardware'].map((t) => <li>{t}</li>)}
-          </ul>
-        </div>
-      </figure>
-    </div>
-  </section>
-
-  <!-- Leistungen -->
-  <section class="section" id="leistungen">
     <div class="wrap">
-      <div class="section-head">
-        <h2>Was ich für Ihre IT übernehme</h2>
-        <p>Vom einzelnen Supportfall bis zur schrittweisen Verbesserung Ihrer Umgebung. Zuerst das Ziel, dann die Technik, ohne überdimensioniertes Standardpaket.</p>
-      </div>
-      <ul class="services">
-        {leistungen.map((l) => (
-          <li>
-            <h3>{l.t}</h3>
-            <p>{l.d}</p>
-          </li>
-        ))}
+      <ul class="hero-facts">
+        <li>{site.experienceYears} Jahre IT-Erfahrung</li>
+        <li>Ein direkter Ansprechpartner</li>
+        <li>Klare Kosten vor dem Start</li>
       </ul>
     </div>
   </section>
 
-  <!-- Fernwartung oder vor Ort -->
-  <section class="section" id="fernwartung">
+  <!-- Zielgruppen -->
+  <section class="section audience" aria-label="Für Unternehmen und Privatpersonen">
+    <div class="wrap audience-grid">
+      <article class="aud aud-firma" id="unternehmen">
+        <Icon name="building" class="aud-icon" />
+        <h2>Ihr Geschäft im Fokus. Ihre IT in guten Händen.</h2>
+        <ul class="checks">
+          <li>Einzelauftrag oder laufende Betreuung</li>
+          <li>Ein Ansprechpartner, auch für Ihre Anbieter</li>
+          <li>Microsoft 365, Backup, Netzwerk</li>
+        </ul>
+        <div class="aud-foot">
+          <a class="btn btn-primary" href="#preise" data-preise="firma">Für Unternehmen</a>
+          <span class="small">ab CHF {p.firma.stunde} pro Stunde</span>
+        </div>
+      </article>
+      <article class="aud aud-privat" id="privat">
+        <Icon name="home" class="aud-icon" />
+        <h2>Technik soll helfen. Nicht den Tag bestimmen.</h2>
+        <ul class="checks">
+          <li>PC- und Laptop-Reparaturen</li>
+          <li>E-Mail, WLAN und Drucker</li>
+          <li>Erklärungen, die Sie verstehen</li>
+        </ul>
+        <div class="aud-foot">
+          <a class="btn btn-primary" href="#preise" data-preise="privat">Für Privatpersonen</a>
+          <span class="small">Fernwartung ab CHF {p.privat.fernwartung.preis}</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Leistungen -->
+  <section class="services on-dark" id="leistungen">
     <div class="wrap">
-      <div class="section-head">
-        <h2>Fernwartung oder vor Ort: der Weg richtet sich nach dem Problem</h2>
-        <p>So sparen Sie unnötige Anfahrt und bekommen persönliche Hilfe dort, wo sie wirklich nötig ist.</p>
+      <div class="services-head">
+        <h2>Ihre IT kann mehr.</h2>
+        <p>Sieben Bereiche, ein Ansprechpartner.</p>
       </div>
-      <div class="ways">
-        <div class="way">
-          <h3>Fernwartung</h3>
-          <p class="muted">In der ganzen Schweiz, ohne Anfahrt</p>
-          <ul class="checks">
-            <li>E-Mail, Outlook und Microsoft 365</li>
-            <li>Programme, Updates und Einstellungen</li>
-            <li>Langsamer PC und Sicherheitsmeldungen</li>
-            <li>Viele Druckerprobleme</li>
-          </ul>
+      <div class="services-grid">
+        <div class="service-tabs" role="tablist" aria-label="Leistungen" aria-orientation="vertical">
+          {leistungen.map((l, i) => (
+            <button type="button" role="tab" id={`tab-${l.id}`} aria-controls={`panel-${l.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+              <Icon name={l.icon} />
+              <span>{l.tab}</span>
+            </button>
+          ))}
         </div>
-        <div class="way">
-          <h3>Vor Ort</h3>
-          <p class="muted">In Winterthur, Frauenfeld und Umgebung</p>
-          <ul class="checks">
-            <li>WLAN, Router, Switches und Verkabelung</li>
-            <li>Neue Geräte, Arbeitsplätze und Datenübernahme</li>
-            <li>Drucker, Scanner und Zubehör</li>
-            <li>Ein PC, der nicht mehr startet</li>
-          </ul>
-        </div>
-        <aside class="safety" aria-labelledby="safety-h">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m8.5 12 2.4 2.4 4.6-4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <h3 id="safety-h">Kein unangekündigter Zugriff</h3>
-          <p>
-            Öffnen Sie Fernwartungssoftware nur nach vorherigem Kontakt mit mir und niemals wegen eines unerwarteten Anrufs.
-            Ich arbeite mit AnyDesk. Laden Sie es erst zum vereinbarten Termin von der offiziellen Website herunter.
-          </p>
-          <a href={site.anydesk} rel="noopener">AnyDesk herunterladen (anydesk.com)</a>
-        </aside>
+        {leistungen.map((l, i) => (
+          <div class="service-panel" role="tabpanel" id={`panel-${l.id}`} aria-labelledby={`tab-${l.id}`} hidden={i !== 0}>
+            <div class="sp-copy">
+              <h3>{l.titel}</h3>
+              <ul class="checks">{l.punkte.map((pt) => <li>{pt}</li>)}</ul>
+              <a class="btn btn-lila" href="#anfrage" data-thema={l.tab}>Dieses Thema besprechen</a>
+            </div>
+            <div class="sp-diagram" aria-hidden="true">
+              <span class="sp-root"><Icon name={l.icon} />{l.mitte}</span>
+              <span class="sp-lines"></span>
+              <span class="sp-leaves">{l.teile.map((t) => <span>{t}</span>)}</span>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Ablauf -->
-  <section class="section">
+  <!-- Preise -->
+  <section class="section pricing" id="preise">
     <div class="wrap">
-      <div class="section-head">
-        <h2>So läuft eine Anfrage ab</h2>
-        <p>Keine Arbeit ohne Ihre Freigabe. Zusätzlichen Aufwand stimme ich zuerst mit Ihnen ab.</p>
+      <div class="pricing-head">
+        <h2>Gute IT. Ein gutes Gefühl beim Preis.</h2>
+        <div class="switch" role="tablist" aria-label="Preise für">
+          <button type="button" role="tab" id="ptab-firma" aria-controls="ppanel-firma" aria-selected="true" tabindex="0">Unternehmen</button>
+          <button type="button" role="tab" id="ptab-privat" aria-controls="ppanel-privat" aria-selected="false" tabindex="-1">Privatpersonen</button>
+        </div>
       </div>
-      <ol class="steps">
-        <li><h3>Problem schildern</h3><p>Per Telefon, WhatsApp oder Formular. Fachbegriffe sind nicht nötig.</p></li>
-        <li><h3>Weg klären</h3><p>Ich ordne ein, ob Fernwartung reicht oder ein Termin vor Ort sinnvoll ist.</p></li>
-        <li><h3>Kosten freigeben</h3><p>Sie bestätigen Vorgehen und Kostenrahmen, bevor ich anfange.</p></li>
-        <li><h3>Lösung umsetzen</h3><p>Ich bearbeite den Fall nachvollziehbar und erkläre, was ich gemacht habe.</p></li>
-      </ol>
+
+      <div role="tabpanel" id="ppanel-firma" aria-labelledby="ptab-firma" class="ppanel">
+        <div class="price-grid">
+          <article class="price">
+            <h3>Support nach Aufwand</h3>
+            <p class="amount"><span class="cur">CHF</span>{p.firma.stunde}</p>
+            <p class="per">pro Stunde, in 15-Minuten-Schritten</p>
+            <ul class="checks">
+              <li>Remote oder vor Ort</li>
+              <li>Keine monatlichen Kosten</li>
+              <li>Vor Ort: mindestens 1 Stunde</li>
+            </ul>
+            <a class="btn btn-ghost" href="#anfrage" data-thema="Support nach Aufwand" data-typ="firma">Support anfragen</a>
+          </article>
+          <article class="price price-dark on-dark">
+            <h3>Betreuter Arbeitsplatz</h3>
+            <p class="amount"><span class="cur">ab CHF</span>{p.firma.arbeitsplatz}</p>
+            <p class="per">pro Arbeitsplatz und Monat</p>
+            <ul class="checks">
+              <li>Monitoring und Patch-Management</li>
+              <li>Inventar und IT-Dokumentation</li>
+              <li>Microsoft-365-Basisadministration</li>
+              <li>{p.firma.poolMinuten} gepoolte Supportminuten je Arbeitsplatz</li>
+            </ul>
+            <a class="btn btn-lila" href="#anfrage" data-thema="Betreute Arbeitsplätze" data-typ="firma">Betreuung besprechen</a>
+          </article>
+        </div>
+
+        <div class="calc" data-calc data-preis={parseInt(p.firma.arbeitsplatz)} data-minuten={p.firma.poolMinuten}>
+          <div class="calc-in">
+            <label for="calc-n" class="calc-label">Wie viele Arbeitsplätze?</label>
+            <div class="stepper">
+              <button type="button" data-step="-1" aria-label="Ein Arbeitsplatz weniger">−</button>
+              <input id="calc-n" type="number" inputmode="numeric" min="1" max="100" value="5" />
+              <button type="button" data-step="1" aria-label="Ein Arbeitsplatz mehr">+</button>
+            </div>
+            <input type="range" min="1" max="100" value="5" aria-label="Arbeitsplätze einstellen" data-range />
+            <div class="presets" role="group" aria-label="Schnellwahl">
+              {[1, 5, 10, 25].map((n) => <button type="button" data-preset={n} aria-pressed={n === 5 ? 'true' : 'false'}>{n === 1 ? 'Solo' : `${n} Personen`}</button>)}
+            </div>
+          </div>
+          <div class="calc-out" aria-live="polite">
+            <p class="small muted">Unverbindlicher Richtwert</p>
+            <p class="calc-price" data-out-preis>ab CHF 495.–</p>
+            <p class="small muted"><span data-out-text>pro Monat, 150 gepoolte Supportminuten</span></p>
+          </div>
+        </div>
+        <p class="fine">Genauer Umfang nach einer kurzen Bestandsaufnahme. Onboarding, Lizenzen, Vor-Ort-Termine, Projekte, Server und NAS separat. Keine Flatrate, keine feste Reaktionszeit.</p>
+      </div>
+
+      <div role="tabpanel" id="ppanel-privat" aria-labelledby="ptab-privat" class="ppanel" hidden>
+        <div class="price-grid">
+          <article class="price">
+            <h3>Fernwartung</h3>
+            <p class="amount"><span class="cur">CHF</span>{p.privat.fernwartung.preis}</p>
+            <p class="per">Mindestpauschale, bis 45 Minuten</p>
+            <ul class="checks">
+              <li>PC, E-Mail, Programme</li>
+              <li>Zugriff nur mit Ihrer Freigabe</li>
+              <li>Danach CHF {p.privat.weitere15} je 15 Minuten</li>
+            </ul>
+            <a class="btn btn-ghost" href="#anfrage" data-thema="Fernwartung privat" data-typ="privat">Fernwartung anfragen</a>
+          </article>
+          <article class="price price-dark on-dark">
+            <h3>Vor Ort und Reparatur</h3>
+            <p class="amount"><span class="cur">CHF</span>{p.privat.vorOrt.preis}</p>
+            <p class="per">Mindestpauschale, bis 45 Minuten</p>
+            <ul class="checks">
+              <li>PC, Laptop, WLAN, Drucker</li>
+              <li>Neue Geräte und Datenübernahme</li>
+              <li>Danach CHF {p.privat.weitere15} je 15 Minuten</li>
+            </ul>
+            <a class="btn btn-lila" href="#anfrage" data-thema="Termin vor Ort privat" data-typ="privat">Termin anfragen</a>
+          </article>
+        </div>
+        <div class="credit">
+          <div>
+            <h3>3 Stunden Support. Flexibel nutzbar.</h3>
+            <p class="small muted">{p.privat.guthaben.gueltig} gültig, in 15-Minuten-Schritten, kein Abo</p>
+          </div>
+          <p class="credit-price">CHF {p.privat.guthaben.preis}</p>
+          <a class="btn btn-ghost" href="#anfrage" data-thema="3-Stunden-Guthaben" data-typ="privat">Guthaben anfragen</a>
+        </div>
+        <p class="fine">Anfahrt, Hardware, Lizenzen und Material nach Rücksprache separat.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vertrauen -->
+  <section class="trust" aria-label="Koordination und Sicherheit">
+    <div class="wrap trust-grid">
+      <div class="trust-item">
+        <Icon name="link" />
+        <div>
+          <h2>Schluss mit dem Zuständigkeits-Pingpong.</h2>
+          <p>Ich kläre mit Internetanbieter, Microsoft und Softwarefirma, wer zuständig ist.</p>
+        </div>
+      </div>
+      <div class="trust-item" id="fernwartung">
+        <Icon name="shield" />
+        <div>
+          <h2>Kein unangekündigter Zugriff.</h2>
+          <p>Öffnen Sie <a href={site.anydesk} rel="noopener">AnyDesk</a> nur zum vereinbarten Termin, nie wegen eines unerwarteten Anrufs.</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- Über mich -->
   <section class="section about" id="ueber-mich">
     <div class="wrap about-grid">
-      <div class="about-photo">
-        <Image src={nick} alt="Nick Früh, Inhaber von Früh Systems, im Büro" width={480} widths={[360, 480, 768]} sizes="(max-width: 760px) 100vw, 400px" />
-      </div>
+      <figure class="about-photo">
+        <Image src={nick} alt="Nick Früh, Inhaber von Früh Systems" width={520} widths={[360, 520, 768]} sizes="(max-width: 760px) 100vw, 460px" />
+        <figcaption><strong>Nick Früh</strong><span>Ihr persönlicher IT-Ansprechpartner</span></figcaption>
+      </figure>
       <div class="about-copy">
-        <h2>Ich bin Nick Früh.</h2>
-        <p class="lead">
-          Ich führe Früh Systems und bin seit {site.experienceYears} Jahren in der IT-Branche tätig.
-          Diese Erfahrung zeigt mir, welche Lösungen im Alltag funktionieren und wo unnötige Komplexität nur Geld kostet.
-        </p>
-        <p>
-          Bei mir landen Sie nicht in einer Warteschlange. Sie erreichen mich direkt, ich höre zu, ordne das Problem ein und
-          empfehle Ihnen verständlich, was nötig ist. Umgesetzt wird erst, wenn Sie einverstanden sind.
-        </p>
-        <ul class="principles">
-          <li><strong>Zuhören und einordnen.</strong> Zuerst kläre ich, was nicht funktioniert oder was Sie erreichen möchten.</li>
-          <li><strong>Verständlich empfehlen.</strong> Sie bekommen eine klare Einschätzung zu Priorität, Vorgehen und Aufwand.</li>
-          <li><strong>Nach Freigabe umsetzen.</strong> Ich setze die Lösung nachvollziehbar um und übergebe sie verständlich.</li>
+        <h2>Hinter Ihrer IT steht ein Mensch.</h2>
+        <p class="lead">Hallo, ich bin Nick Früh. Seit {site.experienceYears} Jahren in der IT. Ich höre zu, erkläre verständlich und setze erst nach Ihrer Freigabe um.</p>
+        <p class="motto">Zuerst verstehen. Dann sinnvoll lösen.</p>
+        <dl class="numbers">
+          <div><dt>Jahre IT-Erfahrung</dt><dd>{site.experienceYears}</dd></div>
+          <div><dt>direkter Ansprechpartner</dt><dd>1</dd></div>
+          <div><dt>auf Google</dt><dd>{site.google.rating}</dd></div>
+        </dl>
+        <ul class="quotes">
+          {site.google.quotes.map((q) => <li><blockquote>«{q.text}»</blockquote><span class="small muted">{q.author}</span></li>)}
         </ul>
+        <a href={site.google.url} rel="noopener" class="small quotes-link">Bewertungen auf Google lesen</a>
       </div>
     </div>
   </section>
 
-  <!-- Bewertungen -->
-  <section class="section reviews">
+  <!-- Ablauf -->
+  <section class="process">
     <div class="wrap">
-      <div class="reviews-head">
-        <p class="rating"><span class="rating-num">{site.google.rating}</span><span class="stars" aria-hidden="true">★★★★★</span></p>
-        <div>
-          <h2>Was Kundinnen und Kunden auf Google schreiben</h2>
-          <p class="muted small">{site.google.count} öffentliche Google-Bewertungen, Stand {site.google.asOf}</p>
-        </div>
-      </div>
-      <ul class="quotes">
-        {site.google.quotes.map((q) => (
-          <li>
-            <blockquote><p>«{q.text}»</p></blockquote>
-            <p class="small muted">{q.author} auf Google</p>
-          </li>
-        ))}
-      </ul>
-      <a href={site.google.url} rel="noopener" class="reviews-link">Alle Bewertungen auf Google lesen</a>
+      <h2>Einfach anfangen.</h2>
+      <ol class="steps">
+        <li><h3>Sie erzählen.</h3><p>Was nicht funktioniert. Fachbegriffe braucht es nicht.</p></li>
+        <li><h3>Ich kläre.</h3><p>Weg, Aufwand und Kosten, bevor ich beginne.</p></li>
+        <li><h3>Ihre IT läuft weiter.</h3><p>Nach Ihrer Freigabe, nachvollziehbar übergeben.</p></li>
+      </ol>
     </div>
   </section>
 
   <!-- FAQ -->
   <section class="section" id="fragen">
     <div class="wrap faq-grid">
-      <div class="section-head">
-        <h2>Häufige Fragen</h2>
-        <p>Ihre Frage ist nicht dabei? Rufen Sie mich an oder schreiben Sie mir kurz.</p>
-      </div>
+      <h2>Noch eine Frage?</h2>
       <div class="faq">
         {faq.map((f) => (
           <details name="faq">
@@ -354,23 +334,16 @@ const schema = {
   </section>
 
   <!-- Anfrage -->
-  <section class="section contact" id="anfrage">
+  <section class="contact on-dark" id="anfrage">
     <div class="wrap contact-grid">
       <div class="contact-intro">
-        <h2>Was soll als Nächstes funktionieren?</h2>
-        <p class="lead">Beschreiben Sie kurz Ihr Anliegen. Ich melde mich persönlich mit dem nächsten Schritt.</p>
-        <ul class="channels">
-          <li>
-            <a href={site.phoneHref}><span class="ch-label">Telefon</span><span class="ch-value">{site.phoneDisplay}</span></a>
-          </li>
-          <li>
-            <a href={site.whatsapp} rel="noopener"><span class="ch-label">WhatsApp</span><span class="ch-value">Foto der Fehlermeldung senden</span></a>
-          </li>
-          <li>
-            <a href={`mailto:${site.email}`}><span class="ch-label">E-Mail</span><span class="ch-value">{site.email}</span></a>
-          </li>
+        <h2>Ein Gespräch genügt.</h2>
+        <p class="contact-lead">Beschreiben Sie kurz Ihr Anliegen. Ich melde mich persönlich.</p>
+        <a class="contact-phone" href={site.phoneHref}><Icon name="phone" />{site.phoneDisplay}</a>
+        <ul class="contact-links">
+          <li><a href={site.whatsapp} rel="noopener"><Icon name="chat" />WhatsApp schreiben</a></li>
+          <li><a href={`mailto:${site.email}`}><Icon name="mail" />{site.email}</a></li>
         </ul>
-        <p class="small muted">Bitte senden Sie keine Passwörter oder Zugangscodes.</p>
       </div>
 
       <form class="form" name="anfrage" method="POST" action="/danke/" data-netlify="true" netlify-honeypot="bot-feld" novalidate>
@@ -410,21 +383,106 @@ const schema = {
           </div>
         </div>
         <div class="field">
-          <label for="f-msg">Was funktioniert nicht? <span aria-hidden="true">*</span></label>
-          <textarea id="f-msg" name="nachricht" rows="5" required aria-describedby="e-msg h-msg"></textarea>
-          <p class="hint small muted" id="h-msg">Gerät oder Programm, seit wann, und den Wortlaut einer Fehlermeldung.</p>
+          <label for="f-msg">Worum geht es? <span aria-hidden="true">*</span></label>
+          <textarea id="f-msg" name="nachricht" rows="4" required aria-describedby="e-msg" placeholder="Was funktioniert nicht oder soll besser werden?"></textarea>
           <p class="error" id="e-msg" data-error-for="nachricht" hidden>Bitte beschreiben Sie kurz Ihr Anliegen.</p>
         </div>
-        <p class="small muted">
-          Mit dem Absenden stimmen Sie der Bearbeitung Ihrer Angaben gemäss <a href={site.privacyUrl}>Datenschutzerklärung</a> zu.
-        </p>
-        <button class="btn btn-primary" type="submit">Anfrage senden</button>
+        <p class="small form-note">Bitte keine Passwörter senden. Es gilt die <a href={site.privacyUrl}>Datenschutzerklärung</a>.</p>
+        <button class="btn btn-lila" type="submit">Anfrage senden</button>
       </form>
     </div>
   </section>
 </Base>
 
 <script>
+  // Tabs (Leistungen und Preise)
+  function tabs(list: HTMLElement, onSelect?: (tab: HTMLElement) => void) {
+    const items = [...list.querySelectorAll<HTMLElement>('[role="tab"]')];
+    const select = (tab: HTMLElement, focus = false) => {
+      items.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls')!);
+        if (panel) panel.hidden = !on;
+      });
+      if (focus) tab.focus();
+      onSelect?.(tab);
+    };
+    items.forEach((t, i) => {
+      t.addEventListener('click', () => select(t));
+      t.addEventListener('keydown', (e) => {
+        const vertical = list.getAttribute('aria-orientation') === 'vertical';
+        const prev = vertical ? 'ArrowUp' : 'ArrowLeft';
+        const next = vertical ? 'ArrowDown' : 'ArrowRight';
+        let j = -1;
+        if (e.key === prev) j = (i - 1 + items.length) % items.length;
+        else if (e.key === next) j = (i + 1) % items.length;
+        else if (e.key === 'Home') j = 0;
+        else if (e.key === 'End') j = items.length - 1;
+        if (j >= 0) { e.preventDefault(); select(items[j], true); }
+      });
+    });
+    return select;
+  }
+
+  const serviceList = document.querySelector<HTMLElement>('.service-tabs');
+  if (serviceList) {
+    const mq = matchMedia('(max-width: 860px)');
+    const orient = () => serviceList.setAttribute('aria-orientation', mq.matches ? 'horizontal' : 'vertical');
+    orient(); mq.addEventListener('change', orient);
+    tabs(serviceList, (tab) => {
+      if (mq.matches) serviceList.scrollTo({ left: tab.offsetLeft - serviceList.offsetLeft - 8, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    });
+  }
+
+  const priceList = document.querySelector<HTMLElement>('.switch');
+  const selectPrice = priceList ? tabs(priceList) : null;
+  document.querySelectorAll<HTMLAnchorElement>('[data-preise]').forEach((a) =>
+    a.addEventListener('click', () => {
+      const t = document.getElementById(`ptab-${a.dataset.preise}`);
+      if (t && selectPrice) selectPrice(t);
+    })
+  );
+
+  // Rechner
+  const calc = document.querySelector<HTMLElement>('[data-calc]');
+  if (calc) {
+    const preis = Number(calc.dataset.preis), minuten = Number(calc.dataset.minuten);
+    const num = calc.querySelector<HTMLInputElement>('#calc-n')!;
+    const range = calc.querySelector<HTMLInputElement>('[data-range]')!;
+    const fmt = new Intl.NumberFormat('de-CH');
+    const set = (v: number) => {
+      const n = Math.max(1, Math.min(100, Math.round(v) || 1));
+      num.value = String(n); range.value = String(n);
+      range.setAttribute('aria-valuetext', `${n} Arbeitsplätze`);
+      calc.querySelector('[data-out-preis]')!.textContent = `ab CHF ${fmt.format(n * preis)}.–`;
+      calc.querySelector('[data-out-text]')!.textContent = `pro Monat, ${fmt.format(n * minuten)} gepoolte Supportminuten`;
+      calc.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.preset) === n)));
+      calc.querySelector<HTMLButtonElement>('[data-step="-1"]')!.disabled = n <= 1;
+      calc.querySelector<HTMLButtonElement>('[data-step="1"]')!.disabled = n >= 100;
+    };
+    num.addEventListener('change', () => set(Number(num.value)));
+    range.addEventListener('input', () => set(Number(range.value)));
+    calc.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((b) => b.addEventListener('click', () => set(Number(num.value) + Number(b.dataset.step))));
+    calc.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach((b) => b.addEventListener('click', () => set(Number(b.dataset.preset))));
+    set(5);
+  }
+
+  // Hero: leichte Bewegung des Bildes mit der Maus
+  const hero = document.querySelector<HTMLElement>('.hero');
+  if (hero && matchMedia('(pointer: fine)').matches) {
+    const rm = matchMedia('(prefers-reduced-motion: reduce)');
+    hero.addEventListener('pointermove', (e) => {
+      if (rm.matches) return;
+      const r = hero.getBoundingClientRect();
+      hero.style.setProperty('--mx', `${((e.clientX - r.left) / r.width - 0.5) * -18}px`);
+      hero.style.setProperty('--my', `${((e.clientY - r.top) / r.height - 0.5) * -12}px`);
+    });
+    hero.addEventListener('pointerleave', () => { hero.style.setProperty('--mx', '0px'); hero.style.setProperty('--my', '0px'); });
+  }
+
+  // Formular
   const form = document.querySelector<HTMLFormElement>('form[name="anfrage"]');
   if (form) {
     const msg = form.querySelector<HTMLTextAreaElement>('textarea[name="nachricht"]')!;
@@ -433,17 +491,27 @@ const schema = {
       const r = form.querySelector<HTMLInputElement>(`input[name="kundentyp"][value="${v}"]`);
       if (r) r.checked = true;
     };
-    document.addEventListener('anfrage:vorbelegen', (e) => {
-      const { fuer, thema } = (e as CustomEvent).detail;
-      setTyp(fuer);
+    const prefill = (thema: string, fuer?: string) => {
+      if (fuer) setTyp(fuer);
       if (!msg.value.trim() || msg.dataset.prefilled === 'true') {
         msg.value = `Thema: ${thema}\n\n`;
         msg.dataset.prefilled = 'true';
       }
-      setTimeout(() => msg.focus({ preventScroll: true }), 400);
+      setTimeout(() => msg.focus({ preventScroll: true }), 450);
+    };
+    document.addEventListener('anfrage:vorbelegen', (e) => {
+      const { fuer, thema } = (e as CustomEvent).detail;
+      prefill(thema, fuer);
     });
-    document.querySelectorAll<HTMLAnchorElement>('[data-vorbelegen]').forEach((a) =>
-      a.addEventListener('click', () => setTyp(a.dataset.vorbelegen!))
+    document.querySelectorAll<HTMLAnchorElement>('[data-thema]').forEach((a) =>
+      a.addEventListener('click', () => {
+        let thema = a.dataset.thema!;
+        if (thema === 'Betreute Arbeitsplätze') {
+          const n = document.querySelector<HTMLInputElement>('#calc-n')?.value;
+          if (n) thema = `Betreuung von ${n} Arbeitsplätzen`;
+        }
+        prefill(thema, a.dataset.typ);
+      })
     );
 
     const show = (name: string, on: boolean) => {
@@ -475,197 +543,238 @@ const schema = {
 
 <style>
   /* Hero */
-  .hero { padding-block: clamp(2.5rem, 1.5rem + 4vw, 5.5rem) var(--s-8); }
-  .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(2rem, 1rem + 4vw, 5rem); align-items: start; }
-  .hero-copy { display: grid; gap: var(--s-5); padding-top: clamp(0rem, 2vw, 2.5rem); }
-  .hero-region { font-weight: 500; color: var(--green-ink); }
-  .hero h1 { max-width: 17ch; }
-  .hero .lead { max-width: 34rem; }
-  .hero-person { display: flex; align-items: center; gap: var(--s-4); margin-top: var(--s-2); }
-  .hero-person :global(.hero-avatar) {
-    width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: 50% 22%;
-    border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line);
+  .hero {
+    --mx: 0px; --my: 0px;
+    position: relative; overflow: hidden; isolation: isolate;
+    background: var(--navy); color: #fff;
+    border-radius: 0 0 var(--r-xl) var(--r-xl);
+    padding-top: calc(4.25rem + var(--s-3) + clamp(2.5rem, 1rem + 5vw, 5.5rem));
   }
-  .hero-facts { list-style: none; display: grid; gap: 2px; font-size: var(--t-sm); color: var(--ink-2); }
-  .stars { color: #e3a008; letter-spacing: 1px; margin-right: var(--s-1); }
-  .stars-link { text-decoration: none; font-weight: 600; color: var(--ink); }
-  .stars-link:hover { text-decoration: underline; }
+  .hero-art { position: absolute; inset: 0 -4% 0 auto; width: 78%; z-index: -1; }
+  .hero-art :global(img) {
+    width: 100%; height: 100%; object-fit: cover; object-position: 30% 50%;
+    transform: translate3d(var(--mx), var(--my), 0) scale(1.04);
+    transition: transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+  .hero-art::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--navy) 0%, rgb(10 16 36 / 0.65) 35%, rgb(10 16 36 / 0.1) 70%), linear-gradient(0deg, var(--navy) 0%, transparent 30%);
+  }
+  @media (prefers-reduced-motion: reduce) { .hero-art :global(img) { transition: none; transform: scale(1.04); } }
+  .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2rem, 1rem + 4vw, 5rem); align-items: center; }
+  .hero-copy { display: grid; gap: var(--s-5); align-content: center; }
+  .hero h1 { font-size: clamp(3rem, 1.6rem + 6vw, 6.5rem); line-height: 0.95; letter-spacing: -0.045em; max-width: 9ch; font-weight: 650; }
+  .hero-sub { font-size: var(--t-md); line-height: 1.45; color: var(--on-navy); max-width: 30rem; }
+  .hero-person { display: flex; align-items: center; gap: var(--s-4); }
+  .hero-person :global(.hero-avatar) { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; border: 2px solid rgb(255 255 255 / 0.85); }
+  .hero-name { font-weight: 600; }
+  .stars { color: #f2b53a; letter-spacing: 1px; }
+  .stars-link { font-size: var(--t-sm); color: var(--on-navy); text-decoration: none; }
+  .stars-link:hover { text-decoration: underline; color: #fff; }
+  .hero-facts {
+    list-style: none; display: flex; justify-content: space-between; gap: var(--s-3) var(--s-6); flex-wrap: wrap;
+    margin-top: clamp(2.5rem, 1rem + 4vw, 4.5rem); padding-block: var(--s-5) var(--s-6);
+    border-top: 1px solid rgb(255 255 255 / 0.12); font-size: var(--t-sm); color: var(--on-navy);
+  }
+  .hero-facts li { position: relative; padding-left: 1.5rem; }
+  .hero-facts li::before { content: ''; position: absolute; left: 0.1rem; top: 0.45em; width: 0.8rem; height: 0.42rem; border-left: 2px solid #7de0ad; border-bottom: 2px solid #7de0ad; transform: rotate(-45deg); }
   @media (max-width: 900px) {
     .hero-grid { grid-template-columns: 1fr; }
-    .hero h1 { max-width: 18ch; }
+    .hero-art { width: 150%; inset: 0 -45% auto auto; height: 520px; }
+    .hero-art::after { background: linear-gradient(0deg, var(--navy) 10%, rgb(10 16 36 / 0.55) 60%, rgb(10 16 36 / 0.35) 100%); }
+    .hero-facts { flex-direction: column; }
   }
 
-  /* Wege */
-  .paths { padding-top: 0; border-top: 0 !important; }
-  .paths-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-5); }
-  .path {
-    display: flex; flex-direction: column; gap: var(--s-5);
-    padding: clamp(1.5rem, 1rem + 2vw, 2.75rem); border-radius: var(--r-lg);
-  }
-  .path > .btn { align-self: flex-start; margin-top: auto; }
-  .path-privat { background: var(--surface); border: 1px solid var(--line); }
-  .path-firma { background: var(--ink); color: #fff; }
-  .path-intro { color: var(--ink-2); }
-  .path-firma .path-intro { color: #c8ced6; }
-  .prices { margin: 0; display: grid; }
-  .prices > div {
-    display: grid; grid-template-columns: 1fr auto; gap: var(--s-1) var(--s-4); align-items: baseline;
-    padding-block: var(--s-3); border-bottom: 1px solid var(--line);
-  }
-  .path-firma .prices > div { border-color: rgb(255 255 255 / 0.14); }
-  .prices dt { font-weight: 500; }
-  .prices dd { margin: 0; text-align: right; display: grid; }
-  .prices dd strong { font-size: var(--t-md); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
-  .prices dd span { font-size: var(--t-sm); color: var(--muted); }
-  .path-firma .prices dd span { color: #aab2bc; }
-  .credit { border-radius: var(--r-md); padding: var(--s-5); background: var(--paper); display: grid; gap: var(--s-2); position: relative; overflow: hidden; }
-  .credit::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--grad); }
-  .credit-title { font-weight: 600; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-1) var(--s-3); }
-  .credit-title strong { font-size: var(--t-md); }
-  .credit-dark { background: rgb(255 255 255 / 0.06); }
-  .per { font-size: var(--t-sm); color: #aab2bc; font-weight: 400; }
-  .on-dark-muted { color: #aab2bc; }
-  .btn-light { background: #fff; color: var(--ink); }
-  .btn-light:hover { background: #e9e4ff; }
-  .path-firma :focus-visible { box-shadow: 0 0 0 3px var(--ink), 0 0 0 5px #b9a6ff; }
-  @media (max-width: 860px) { .paths-grid { grid-template-columns: 1fr; } }
-  @media (max-width: 420px) {
-    .prices > div { grid-template-columns: 1fr; }
-    .prices dd { text-align: left; }
-  }
-
-  .checks { list-style: none; display: grid; gap: var(--s-2); }
-  .checks li { position: relative; padding-left: 1.6rem; }
-  .checks li::before {
-    content: ''; position: absolute; left: 0; top: 0.42em; width: 0.95rem; height: 0.55rem;
-    border-left: 2px solid var(--green); border-bottom: 2px solid var(--green); transform: rotate(-45deg) scale(0.8); transform-origin: 40% 60%;
-  }
-
-  /* Pingpong */
-  .pingpong-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: var(--s-7); align-items: center; }
-  .pingpong .section-head { margin-bottom: 0; }
-  .hub { margin: 0; }
-  .hub svg { width: 100%; max-width: 560px; margin-inline: auto; }
-  @media (max-width: 860px) { .pingpong-grid { grid-template-columns: 1fr; gap: var(--s-5); } }
-  .hub-stack { display: none; }
-  @media (max-width: 560px) {
-    .hub svg { display: none; }
-    .hub-stack { display: grid; justify-items: start; gap: 0; }
-    .hs-team { border: 1.5px solid var(--ink); border-radius: 12px; padding: 0.5rem 1rem; font-weight: 600; background: #fff; }
-    .hs-line { width: 4px; height: 28px; margin-left: 2rem; background: linear-gradient(var(--green), var(--violet)); border-radius: 2px; }
-    .hs-nick { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 650; margin-left: 0.15rem; }
-    .hub-stack ul { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-4); padding-top: var(--s-4); border-top: 1px solid var(--line); }
-    .hub-stack li { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 0.35rem 0.85rem; font-size: var(--t-sm); }
-  }
+  /* Zielgruppen */
+  .audience { border-top: 0 !important; }
+  .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-5); }
+  .aud { position: relative; display: grid; gap: var(--s-5); align-content: start; padding: clamp(1.5rem, 1rem + 2vw, 2.75rem); border-radius: var(--r-lg); }
+  .aud-firma { background: var(--lila); }
+  .aud-privat { background: var(--mint); }
+  .aud :global(.aud-icon) { width: 36px; height: 36px; color: var(--navy); }
+  .aud h2 { font-size: var(--t-xl); max-width: 16ch; }
+  .aud-foot { display: flex; align-items: center; gap: var(--s-4); flex-wrap: wrap; margin-top: var(--s-2); }
+  .aud-foot span { color: var(--ink-2); }
+  @media (max-width: 860px) { .audience-grid { grid-template-columns: 1fr; } }
 
   /* Leistungen */
-  .services { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); column-gap: var(--s-7); }
-  .services li { padding-block: var(--s-5); border-top: 1px solid var(--line); display: grid; gap: var(--s-1); align-content: start; }
-  .services p { color: var(--ink-2); max-width: 32rem; }
-  @media (max-width: 700px) { .services { grid-template-columns: 1fr; } }
-
-  /* Wege Fernwartung */
-  .ways { display: grid; grid-template-columns: 1fr 1fr 1.1fr; gap: var(--s-5); align-items: start; }
-  .way { display: grid; gap: var(--s-3); padding-top: var(--s-4); border-top: 3px solid var(--ink); }
-  .safety {
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md);
-    padding: var(--s-5); display: grid; gap: var(--s-3);
+  .services { background: var(--navy); color: #fff; border-radius: var(--r-xl); margin-inline: clamp(0px, 1.2vw, 18px); padding-block: var(--s-8); }
+  .services-head { display: flex; justify-content: space-between; align-items: end; gap: var(--s-5); flex-wrap: wrap; margin-bottom: var(--s-6); }
+  .services-head h2 { font-size: var(--t-2xl); letter-spacing: -0.035em; }
+  .services-head p { color: var(--on-navy); }
+  .services-grid { display: grid; grid-template-columns: 300px 1fr; gap: var(--s-5); align-items: start; }
+  .service-tabs { display: grid; gap: var(--s-1); }
+  .service-tabs button {
+    display: flex; align-items: center; gap: var(--s-3); width: 100%; min-height: 52px; padding: var(--s-2) var(--s-4);
+    border: 1px solid transparent; border-radius: var(--r-md); background: transparent; color: var(--on-navy);
+    font: inherit; font-size: 0.97rem; text-align: left; cursor: pointer; transition: background-color .15s, color .15s;
   }
-  .safety svg { width: 32px; height: 32px; color: var(--green-ink); }
-  .safety p { color: var(--ink-2); font-size: 0.97rem; }
-  .safety a { font-weight: 600; }
-  @media (max-width: 960px) { .ways { grid-template-columns: 1fr 1fr; } .safety { grid-column: 1 / -1; } }
-  @media (max-width: 600px) { .ways { grid-template-columns: 1fr; } }
-
-  /* Ablauf */
-  .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-5); counter-reset: step; }
-  .steps li { counter-increment: step; display: grid; gap: var(--s-2); align-content: start; }
-  .steps li::before {
-    content: counter(step); display: grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 50%;
-    border: 1.5px solid var(--ink); font-weight: 650; margin-bottom: var(--s-2);
+  .service-tabs button :global(svg) { width: 22px; height: 22px; flex: none; }
+  .service-tabs button:hover { color: #fff; background: rgb(255 255 255 / 0.05); }
+  .service-tabs button[aria-selected='true'] { background: var(--navy-3); border-color: rgb(255 255 255 / 0.1); color: #fff; font-weight: 600; }
+  .service-tabs button[aria-selected='true'] :global(svg) { color: var(--lila-2); }
+  .service-panel {
+    grid-column: 2; grid-row: 1;
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--s-6); align-items: center;
+    background: var(--navy-2); border: 1px solid rgb(255 255 255 / 0.08); border-radius: var(--r-lg);
+    padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
   }
-  .steps li:last-child::before { background: var(--ink); color: #fff; }
-  .steps p { color: var(--ink-2); }
-  @media (max-width: 860px) { .steps { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 480px) { .steps { grid-template-columns: 1fr; } }
+  .sp-copy { display: grid; gap: var(--s-5); justify-items: start; }
+  .sp-copy h3 { font-size: var(--t-xl); letter-spacing: -0.025em; }
+  .sp-copy .checks { color: var(--on-navy); }
+  .sp-diagram {
+    display: grid; justify-items: center; padding: var(--s-6) var(--s-4); border-radius: var(--r-md);
+    background: var(--navy); border: 1px solid rgb(255 255 255 / 0.06);
+  }
+  .sp-root { display: inline-flex; align-items: center; gap: var(--s-2); padding: var(--s-3) var(--s-4); border-radius: var(--r-md); border: 1px solid var(--lila-2); color: #fff; font-weight: 600; font-size: 0.95rem; }
+  .sp-root :global(svg) { width: 20px; height: 20px; color: var(--lila-2); }
+  .sp-lines { width: 67%; height: 22px; border: 1px solid rgb(255 255 255 / 0.25); border-bottom: 0; border-radius: 6px 6px 0 0; margin-top: 22px; position: relative; }
+  .sp-lines::before { content: ''; position: absolute; left: 50%; top: -23px; height: 45px; border-left: 1px solid rgb(255 255 255 / 0.25); }
+  .sp-leaves { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-2); width: 100%; }
+  .sp-leaves span { text-align: center; padding: var(--s-2); border-radius: var(--r-sm); background: var(--navy-3); color: var(--on-navy); font-size: var(--t-sm); overflow-wrap: anywhere; }
+  @media (max-width: 1100px) { .service-panel { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) { .sp-leaves span { font-size: 0.8rem; padding: var(--s-2) 4px; overflow-wrap: normal; } .sp-diagram { padding-inline: var(--s-3); } }
+  @media (max-width: 860px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .service-tabs { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: var(--s-2); padding: 4px 4px var(--s-2); scrollbar-width: thin; }
+    .service-tabs button { width: auto; flex: none; scroll-snap-align: start; border-color: rgb(255 255 255 / 0.1); white-space: nowrap; }
+    .service-panel { grid-column: 1; grid-row: auto; }
+  }
+
+  /* Preise */
+  .pricing-head { display: flex; justify-content: space-between; align-items: end; gap: var(--s-5); flex-wrap: wrap; margin-bottom: var(--s-6); }
+  .pricing-head h2 { font-size: var(--t-2xl); letter-spacing: -0.035em; max-width: 14ch; }
+  .switch { display: inline-flex; padding: 5px; border-radius: 14px; background: #e6e9f0; border: 1px solid var(--line); }
+  .switch button { min-height: 44px; padding: 0 var(--s-5); border: 0; border-radius: 10px; background: transparent; font: inherit; font-weight: 600; color: var(--ink-2); cursor: pointer; }
+  .switch button[aria-selected='true'] { background: #fff; color: var(--ink); box-shadow: 0 2px 6px -2px rgb(10 16 36 / 0.2); }
+  .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-5); }
+  .price { display: grid; gap: var(--s-3); align-content: start; padding: clamp(1.5rem, 1rem + 2vw, 2.5rem); border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); }
+  .price-dark { background: var(--navy-2); border-color: var(--navy-2); color: #fff; }
+  .price h3 { font-size: var(--t-lg); }
+  .amount { display: flex; align-items: baseline; gap: var(--s-2); font-size: clamp(3rem, 2rem + 3vw, 4.5rem); font-weight: 500; letter-spacing: -0.04em; line-height: 1; margin-top: var(--s-3); font-variant-numeric: tabular-nums; }
+  .cur { font-size: 1rem; letter-spacing: 0; font-weight: 500; }
+  .per { color: var(--muted); font-size: var(--t-sm); padding-bottom: var(--s-4); border-bottom: 1px solid var(--line); margin-bottom: var(--s-2); }
+  .price-dark .per { color: var(--on-navy); border-color: rgb(255 255 255 / 0.12); }
+  .price .btn { margin-top: var(--s-4); width: 100%; }
+  .calc { margin-top: var(--s-5); display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--s-6); align-items: center; padding: clamp(1.25rem, 1rem + 1.5vw, 2rem); border-radius: var(--r-lg); background: #e9ecf3; }
+  .calc-in { display: grid; grid-template-columns: 1fr auto; gap: var(--s-4); align-items: center; }
+  .calc-label { font-size: var(--t-md); font-weight: 600; }
+  .stepper { display: inline-flex; align-items: center; background: #fff; border-radius: var(--r-md); border: 1px solid var(--line); }
+  .stepper button { width: 44px; height: 44px; border: 0; background: transparent; font-size: 1.25rem; cursor: pointer; color: var(--ink); border-radius: var(--r-md); }
+  .stepper button:disabled { opacity: .35; cursor: default; }
+  .stepper input { width: 3.2rem; border: 0; text-align: center; font: inherit; font-weight: 600; -moz-appearance: textfield; background: transparent; }
+  .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .calc-in input[type='range'] { grid-column: 1 / -1; width: 100%; accent-color: var(--violet); }
+  .presets { grid-column: 1 / -1; display: flex; gap: var(--s-2); flex-wrap: wrap; }
+  .presets button { min-height: 40px; padding: 0 var(--s-3); border: 1px solid #cdd3dd; border-radius: var(--r-sm); background: transparent; font: inherit; font-size: var(--t-sm); cursor: pointer; }
+  .presets button[aria-pressed='true'] { background: var(--lila); border-color: var(--lila-2); color: var(--violet-ink); font-weight: 600; }
+  .calc-out { text-align: right; border-left: 1px solid #cdd3dd; padding-left: var(--s-6); }
+  .calc-price { font-size: clamp(2rem, 1.5rem + 2vw, 2.8rem); font-weight: 500; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .fine { margin-top: var(--s-4); font-size: var(--t-sm); color: var(--muted); max-width: 52rem; }
+  .credit { margin-top: var(--s-5); display: grid; grid-template-columns: 1fr auto auto; gap: var(--s-5); align-items: center; padding: var(--s-5) var(--s-6); border-radius: var(--r-lg); background: #e9ecf3; }
+  .credit h3 { font-size: var(--t-md); }
+  .credit-price { font-size: var(--t-xl); font-weight: 500; letter-spacing: -0.02em; }
+  @media (max-width: 860px) {
+    .price-grid, .calc { grid-template-columns: 1fr; }
+    .calc-out { text-align: left; border-left: 0; padding-left: 0; border-top: 1px solid #cdd3dd; padding-top: var(--s-4); }
+    .credit { grid-template-columns: 1fr; gap: var(--s-3); }
+  }
+  @media (max-width: 420px) { .calc-in { grid-template-columns: 1fr; } .switch { width: 100%; } .switch button { flex: 1; padding: 0 var(--s-3); } }
+
+  /* Vertrauen */
+  .trust { padding-bottom: var(--s-7); }
+  .trust-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-5); }
+  .trust-item { display: flex; gap: var(--s-4); align-items: flex-start; padding: var(--s-5); border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); }
+  .trust-item > :global(svg) { width: 32px; height: 32px; flex: none; color: var(--green-ink); }
+  .trust-item h2 { font-size: var(--t-md); margin-bottom: var(--s-1); }
+  .trust-item p { color: var(--ink-2); }
+  .trust-item a { font-weight: 600; }
+  @media (max-width: 760px) { .trust-grid { grid-template-columns: 1fr; } }
 
   /* Über mich */
-  .about-grid { display: grid; grid-template-columns: minmax(0, 400px) 1fr; gap: clamp(2rem, 1rem + 4vw, 5rem); align-items: center; }
-  .about-photo :global(img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 30%; border-radius: var(--r-lg); }
-  .about-copy { display: grid; gap: var(--s-4); max-width: 38rem; }
-  .principles { list-style: none; display: grid; gap: var(--s-3); margin-top: var(--s-2); }
-  .principles li { padding-left: var(--s-4); border-left: 3px solid; border-image: linear-gradient(var(--green), var(--violet)) 1; }
-  @media (max-width: 760px) {
-    .about-grid { grid-template-columns: 1fr; }
-    .about-photo { max-width: 360px; }
-  }
+  .about-grid { display: grid; grid-template-columns: minmax(0, 460px) 1fr; gap: clamp(2rem, 1rem + 4vw, 5.5rem); align-items: center; }
+  .about-photo { margin: 0; position: relative; }
+  .about-photo :global(img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 30%; border-radius: var(--r-xl) var(--r-xl) 120px var(--r-xl); }
+  .about-photo::after { content: ''; position: absolute; inset: 55% 0 0 0; border-radius: 0 0 120px var(--r-xl); background: linear-gradient(transparent, rgb(10 16 36 / 0.6)); pointer-events: none; }
+  .about-photo figcaption { position: absolute; z-index: 1; left: var(--s-5); bottom: var(--s-5); display: grid; color: #fff; text-shadow: 0 1px 12px rgb(0 0 0 / 0.5); }
+  .about-photo figcaption strong { font-size: var(--t-lg); font-weight: 600; letter-spacing: -0.02em; }
+  .about-photo figcaption span { font-size: var(--t-sm); }
+  .about-copy { display: grid; gap: var(--s-5); max-width: 36rem; }
+  .about-copy h2 { font-size: var(--t-2xl); letter-spacing: -0.035em; }
+  .motto { font-size: var(--t-lg); color: var(--ink-2); padding-left: var(--s-4); border-left: 3px solid; border-image: linear-gradient(var(--green), var(--violet)) 1; line-height: 1.3; }
+  .numbers { margin: 0; display: flex; gap: var(--s-7); flex-wrap: wrap; }
+  .numbers div { display: flex; flex-direction: column-reverse; justify-content: flex-end; }
+  .numbers dd { margin: 0; font-size: 3rem; font-weight: 500; letter-spacing: -0.04em; line-height: 1; }
+  .numbers dt { font-size: var(--t-sm); color: var(--muted); margin-top: var(--s-1); }
+  .quotes { list-style: none; display: grid; gap: var(--s-3); border-top: 1px solid var(--line); padding-top: var(--s-4); }
+  .quotes li { display: flex; gap: var(--s-3); align-items: baseline; flex-wrap: wrap; }
+  .quotes blockquote { margin: 0; font-weight: 500; }
+  .quotes-link { justify-self: start; }
+  @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; } .about-photo { max-width: 400px; } }
+  @media (max-width: 520px) { .numbers { display: grid; grid-template-columns: repeat(3, auto); gap: var(--s-5); } .numbers dd { font-size: 2.4rem; } }
 
-  /* Bewertungen */
-  .reviews-head { display: flex; align-items: center; gap: var(--s-5); margin-bottom: var(--s-6); flex-wrap: wrap; }
-  .rating { display: grid; justify-items: center; }
-  .rating-num { font-size: 3.4rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
-  .quotes { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
-  .quotes li { display: grid; gap: var(--s-2); padding-top: var(--s-4); border-top: 1px solid var(--line); }
-  .quotes blockquote { margin: 0; font-size: var(--t-md); font-weight: 500; letter-spacing: -0.01em; }
-  .reviews-link { display: inline-block; margin-top: var(--s-6); font-weight: 600; }
-  @media (max-width: 760px) { .quotes { grid-template-columns: 1fr; } }
+  /* Ablauf */
+  .process { background: var(--mint-2); padding-block: var(--s-8); }
+  .process h2 { font-size: var(--t-2xl); letter-spacing: -0.035em; margin-bottom: var(--s-6); }
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-6); counter-reset: s; }
+  .steps li { counter-increment: s; border-top: 1px solid rgb(10 16 36 / 0.15); padding-top: var(--s-4); display: grid; gap: var(--s-2); align-content: start; }
+  .steps li::before { content: counter(s); font-size: 3rem; font-weight: 400; color: #557a69; line-height: 1; margin-bottom: var(--s-3); }
+  .steps h3 { font-size: var(--t-lg); }
+  .steps p { color: var(--ink-2); }
+  @media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
 
   /* FAQ */
   .faq-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: var(--s-7); align-items: start; }
+  .faq-grid h2 { font-size: var(--t-2xl); letter-spacing: -0.035em; }
   .faq details { border-bottom: 1px solid var(--line); }
-  .faq details:first-child { border-top: 1px solid var(--line); }
-  .faq summary {
-    list-style: none; cursor: pointer; padding: var(--s-4) 2.5rem var(--s-4) 0; font-weight: 600; position: relative;
-  }
+  .faq summary { list-style: none; cursor: pointer; padding: var(--s-4) 2.5rem var(--s-4) 0; font-weight: 600; position: relative; }
   .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after {
-    content: ''; position: absolute; right: 0.5rem; top: 50%; width: 0.6rem; height: 0.6rem;
-    border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-70%) rotate(45deg);
-    transition: transform .2s;
-  }
-  .faq details[open] summary::after { transform: translateY(-30%) rotate(-135deg); }
+  .faq summary::before, .faq summary::after { content: ''; position: absolute; right: 0.4rem; top: 50%; width: 14px; height: 1.5px; background: currentColor; transition: transform .2s; }
+  .faq summary::after { transform: rotate(90deg); }
+  .faq details[open] summary::after { transform: rotate(0deg); }
   .faq details p { padding-bottom: var(--s-5); color: var(--ink-2); max-width: 40rem; }
-  @media (max-width: 860px) { .faq-grid { grid-template-columns: 1fr; gap: 0; } }
+  @media (max-width: 860px) { .faq-grid { grid-template-columns: 1fr; gap: var(--s-4); } }
 
   /* Kontakt */
-  .contact { background: var(--surface); }
-  .contact-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: clamp(2rem, 1rem + 4vw, 5rem); align-items: start; }
-  .contact-intro { display: grid; gap: var(--s-4); }
-  .channels { list-style: none; display: grid; gap: var(--s-2); margin-block: var(--s-3); }
-  .channels a {
-    display: grid; gap: 2px; padding: var(--s-3) var(--s-4); border: 1px solid var(--line); border-radius: var(--r-md);
-    text-decoration: none; background: var(--paper); transition: border-color .15s;
-  }
-  .channels a:hover { border-color: var(--ink); }
-  .ch-label { font-size: var(--t-sm); color: var(--muted); }
-  .ch-value { font-weight: 600; overflow-wrap: anywhere; }
+  .contact { background: var(--navy); color: #fff; border-radius: var(--r-xl); margin-inline: clamp(0px, 1.2vw, 18px); padding-block: var(--s-8); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(2rem, 1rem + 4vw, 5rem); align-items: start; }
+  .contact-intro { display: grid; gap: var(--s-4); justify-items: start; }
+  .contact-intro h2 { font-size: var(--t-2xl); letter-spacing: -0.035em; }
+  .contact-lead { color: var(--on-navy); font-size: var(--t-md); }
+  .contact-phone { display: inline-flex; align-items: center; gap: var(--s-3); margin-top: var(--s-3); font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.4rem); letter-spacing: -0.02em; text-decoration: none; font-variant-numeric: tabular-nums; }
+  .contact-phone :global(svg) { width: 0.8em; height: 0.8em; color: #7de0ad; }
+  .contact-phone:hover { text-decoration: underline; }
+  .contact-links { list-style: none; display: grid; gap: var(--s-2); }
+  .contact-links a { display: inline-flex; align-items: center; gap: var(--s-2); color: var(--on-navy); text-decoration: none; min-height: 32px; overflow-wrap: anywhere; }
+  .contact-links a:hover { color: #fff; text-decoration: underline; }
+  .contact-links :global(svg) { width: 20px; height: 20px; flex: none; }
 
-  .form { display: grid; gap: var(--s-4); }
+  .form { display: grid; gap: var(--s-4); background: var(--navy-2); border: 1px solid rgb(255 255 255 / 0.08); border-radius: var(--r-lg); padding: clamp(1.25rem, 1rem + 1.5vw, 2.25rem); }
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); }
   @media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
   .field { display: grid; gap: var(--s-2); border: 0; margin: 0; padding: 0; min-width: 0; }
-  .field label, .field legend { font-weight: 600; font-size: 0.95rem; padding: 0; }
+  .field label, .field legend { font-weight: 500; font-size: 0.95rem; padding: 0; color: #e4e7f1; }
   .field legend { margin-bottom: var(--s-2); }
-  .opt { font-weight: 400; color: var(--muted); }
+  .opt { font-weight: 400; color: #9aa2bb; }
   .field input, .field textarea {
-    font: inherit; color: var(--ink); background: var(--paper); width: 100%;
-    border: 1.5px solid var(--line); border-radius: var(--r-sm); padding: 0.7rem 0.85rem; min-height: 48px;
+    font: inherit; color: #fff; background: var(--navy-3); width: 100%;
+    border: 1.5px solid rgb(255 255 255 / 0.1); border-radius: var(--r-sm); padding: 0.7rem 0.85rem; min-height: 48px;
   }
-  .field textarea { resize: vertical; min-height: 8rem; }
-  .field input:hover, .field textarea:hover { border-color: #b7bec4; }
-  .field input:focus-visible, .field textarea:focus-visible { border-color: var(--violet); box-shadow: 0 0 0 3px color-mix(in srgb, var(--violet) 22%, transparent); border-radius: var(--r-sm); }
-  .field [aria-invalid='true'] { border-color: #c2263a; }
-  .error { color: #b3192d; font-size: var(--t-sm); font-weight: 500; }
+  .field textarea { resize: vertical; min-height: 7rem; }
+  .field ::placeholder { color: #8f97b0; }
+  .field input:hover, .field textarea:hover { border-color: rgb(255 255 255 / 0.25); }
+  .field input:focus-visible, .field textarea:focus-visible { border-color: var(--lila-2); box-shadow: 0 0 0 3px rgb(207 194 255 / 0.25); border-radius: var(--r-sm); }
+  .field [aria-invalid='true'] { border-color: #ff8a9a; }
+  .error { color: #ffb3bd; font-size: var(--t-sm); font-weight: 500; }
   .seg-form { display: flex; flex-wrap: wrap; gap: var(--s-2); }
   .seg-form label { position: relative; }
   .seg-form input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; width: 100%; height: 100%; }
-  .seg-form span {
-    display: inline-flex; align-items: center; min-height: 46px; padding: 0 var(--s-4);
-    border: 1.5px solid var(--line); border-radius: 999px; font-weight: 500; cursor: pointer;
-  }
-  .seg-form label:hover span { border-color: var(--ink); }
-  .seg-form input:checked + span { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .seg-form input:focus-visible + span { box-shadow: var(--focus); }
-  .form .btn { justify-self: start; min-width: 12rem; }
+  .seg-form span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--s-4); border: 1.5px solid rgb(255 255 255 / 0.16); border-radius: 999px; cursor: pointer; color: #e4e7f1; }
+  .seg-form label:hover span { border-color: rgb(255 255 255 / 0.4); }
+  .seg-form input:checked + span { background: var(--lila-2); color: var(--navy); border-color: var(--lila-2); font-weight: 600; }
+  .seg-form input:focus-visible + span { box-shadow: 0 0 0 3px var(--navy-2), 0 0 0 5px var(--lila-2); }
+  .form-note { color: #9aa2bb; }
+  .form-note a { color: #e4e7f1; }
+  .form .btn { width: 100%; }
   @media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; } }
 </style>

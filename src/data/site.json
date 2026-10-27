@@ -16,13 +16,20 @@
   "experienceYears": 10,
   "google": {
     "rating": "5,0",
-    "count": 4,
-    "asOf": "Juli 2026",
     "url": "https://www.google.com/maps?cid=11998682392917561940",
     "quotes": [
-      { "text": "Top Service, schnell und zuverlässig.", "author": "Kay" },
-      { "text": "Exzellenter Service…", "author": "EchoBravo" },
-      { "text": "…schnelle Hilfe!", "author": "luscinia luna" }
+      {
+        "text": "Top Service, schnell und zuverlässig.",
+        "author": "Kay"
+      },
+      {
+        "text": "Exzellenter Service…",
+        "author": "EchoBravo"
+      },
+      {
+        "text": "…schnelle Hilfe!",
+        "author": "luscinia luna"
+      }
     ]
   },
   "anydesk": "https://anydesk.com/de/downloads",

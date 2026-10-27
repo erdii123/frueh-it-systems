@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { Image } from 'astro:assets';
 import logo from '../assets/logo.png';
 import site from '../data/site.json';
+import Icon from '../components/Icon.astro';
 
 interface Props {
   title: string;
@@ -18,9 +19,8 @@ const ogImage = new URL('/og-frueh-systems.jpg', Astro.site).href;
 const year = new Date().getFullYear();
 
 const nav = [
-  { href: '/#privat', label: 'Privatpersonen' },
-  { href: '/#unternehmen', label: 'Unternehmen' },
-  { href: '/#fernwartung', label: 'Fernwartung' },
+  { href: '/#leistungen', label: 'Leistungen' },
+  { href: '/#preise', label: 'Preise' },
   { href: '/#ueber-mich', label: 'Über mich' },
 ];
 ---
@@ -33,7 +33,7 @@ const nav = [
   <meta name="description" content={description} />
   <meta name="robots" content={robots} />
   <link rel="canonical" href={canonical} />
-  <meta name="theme-color" content="#f4f6f5" />
+  <meta name="theme-color" content="#0a1024" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -63,7 +63,9 @@ const nav = [
         </ul>
       </nav>
       <div class="header-actions">
-        <a class="header-phone" href={site.phoneHref}>{site.phoneDisplay}</a>
+        <a class="btn header-phone" href={site.phoneHref} aria-label={`Anrufen: ${site.phoneDisplay}`}>
+          <Icon name="phone" /><span class="header-phone-nr">{site.phoneDisplay}</span>
+        </a>
         <a class="btn btn-primary header-cta" href="/#anfrage">Anfrage senden</a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
           <span class="visually-hidden">Menü öffnen</span>
@@ -90,35 +92,37 @@ const nav = [
   </main>
 
   <footer class="site-footer">
-    <div class="gradline"></div>
-    <div class="wrap footer-grid">
-      <div>
-        <Image src={logo} alt="Früh Systems" width={150} densities={[1, 2]} class="footer-logo" />
-        <p class="muted small">Persönlicher IT-Support für Privatpersonen und KMU. Vor Ort in {site.region}, per Fernwartung in der ganzen Schweiz.</p>
+    <div class="wrap">
+      <Image src={logo} alt="" width={1200} widths={[600, 1200]} sizes="(max-width: 1200px) 92vw, 1150px" class="footer-mark" />
+      <div class="footer-grid">
+        <div>
+          <Image src={logo} alt="Früh Systems" width={150} densities={[1, 2]} class="footer-logo" />
+          <p class="muted small">Persönliche IT. Klare Lösungen.</p>
+        </div>
+        <div>
+          <h2 class="footer-h">Kontakt</h2>
+          <ul class="footer-list">
+            <li><a href={site.phoneHref}>{site.phoneDisplay}</a></li>
+            <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+            <li><a href={site.whatsapp} rel="noopener">WhatsApp</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer-h">Adresse</h2>
+          <p class="small">{site.street}<br />{site.zip} {site.city}</p>
+        </div>
+        <div>
+          <h2 class="footer-h">Rechtliches</h2>
+          <ul class="footer-list">
+            <li><a href="/impressum/">Impressum</a></li>
+            <li><a href={site.privacyUrl}>Datenschutz</a></li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <h2 class="footer-h">Kontakt</h2>
-        <ul class="footer-list">
-          <li><a href={site.phoneHref}>{site.phoneDisplay}</a></li>
-          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-          <li><a href={site.whatsapp} rel="noopener">WhatsApp</a></li>
-        </ul>
+      <div class="footer-bottom small muted">
+        <p>© {year} Früh Systems</p>
+        <p>Website von <a href="https://bilegflow.ch">Bilegflow</a></p>
       </div>
-      <div>
-        <h2 class="footer-h">Adresse</h2>
-        <p class="small">{site.name}<br />{site.street}<br />{site.zip} {site.city}</p>
-      </div>
-      <div>
-        <h2 class="footer-h">Rechtliches</h2>
-        <ul class="footer-list">
-          <li><a href="/impressum/">Impressum</a></li>
-          <li><a href={site.privacyUrl}>Datenschutz</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="wrap footer-bottom small muted">
-      <p>© {year} Früh Systems</p>
-      <p>Website von <a href="https://bilegflow.ch">Bilegflow</a></p>
     </div>
   </footer>
 
@@ -158,29 +162,42 @@ const nav = [
 
 <style>
   .site-header {
-    position: sticky; top: 0; z-index: 50;
-    background: color-mix(in srgb, var(--paper) 92%, transparent);
-    backdrop-filter: saturate(1.4) blur(10px);
-    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 50; padding-top: var(--s-3);
+    margin-bottom: calc(-4.25rem - var(--s-3));
   }
-  .header-inner { display: flex; align-items: center; gap: var(--s-5); min-height: 4.5rem; }
+  .header-inner {
+    display: flex; align-items: center; gap: var(--s-5); min-height: 4.25rem;
+    padding-inline: var(--s-5) var(--s-2);
+    background: color-mix(in srgb, #fff 94%, transparent);
+    backdrop-filter: saturate(1.4) blur(12px);
+    border: 1px solid rgb(255 255 255 / 0.6); border-radius: 18px;
+    box-shadow: 0 10px 30px -18px rgb(10 16 36 / 0.5);
+  }
   .brand img { width: 150px; height: auto; }
   .main-nav { margin-left: auto; }
   .main-nav ul { display: flex; gap: var(--s-5); list-style: none; }
   .main-nav a { text-decoration: none; font-weight: 500; color: var(--ink-2); padding-block: var(--s-2); }
   .main-nav a:hover { color: var(--ink); text-decoration: underline; }
-  .header-actions { display: flex; align-items: center; gap: var(--s-4); }
-  .header-phone { font-weight: 600; text-decoration: none; font-variant-numeric: tabular-nums; }
-  .header-cta { min-height: 42px; }
+  .header-actions { display: flex; align-items: center; gap: var(--s-2); }
+  .header-phone {
+    min-height: 44px; padding: 0 1.05rem; border-color: var(--line); background: #fff; color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .header-phone:hover { border-color: var(--ink); }
+  .header-phone :global(svg) { width: 1.05em; height: 1.05em; color: var(--green-ink); }
+  .header-cta { min-height: 44px; }
   .menu-toggle {
-    display: none; width: 46px; height: 46px; border: 1.5px solid var(--line); border-radius: 50%;
-    background: var(--surface); color: var(--ink); cursor: pointer; padding: 10px;
+    display: none; width: 44px; height: 44px; border: 1.5px solid var(--line); border-radius: 50%;
+    background: #fff; color: var(--ink); cursor: pointer; padding: 10px;
   }
   .mobile-menu {
-    border-top: 1px solid var(--line); background: var(--paper);
-    padding-block: var(--s-5) var(--s-6);
-    max-height: calc(100dvh - 4.5rem); overflow-y: auto;
+    margin-top: var(--s-2); background: #fff; border-radius: 18px; border: 1px solid var(--line);
+    width: min(100% - 2 * var(--gutter), var(--wrap)); margin-inline: auto;
+    padding-block: var(--s-4) var(--s-5);
+    max-height: calc(100dvh - 6rem); overflow-y: auto;
+    box-shadow: 0 20px 40px -20px rgb(10 16 36 / 0.4);
   }
+  .mobile-menu .wrap { width: auto; padding-inline: var(--s-5); }
   .mobile-menu ul { list-style: none; display: grid; }
   .mobile-menu li a {
     display: block; padding: var(--s-3) 0; font-size: var(--t-md); font-weight: 600;
@@ -194,18 +211,17 @@ const nav = [
     .header-actions { margin-left: auto; }
     .menu-toggle { display: grid; place-items: center; }
   }
-  @media (max-width: 420px) {
-    .header-phone { display: none; }
+  @media (max-width: 520px) {
+    .header-inner { padding-inline: var(--s-4) var(--s-2); }
+    .header-phone { width: 44px; padding: 0; }
+    .header-phone-nr { display: none; }
     .brand img { width: 132px; }
   }
 
-  .site-footer { background: var(--surface); margin-top: 0; }
-  .footer-grid {
-    display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--s-6);
-    padding-block: var(--s-7) var(--s-6);
-  }
-  .footer-grid :global(.footer-logo) { width: 150px; margin-bottom: var(--s-4); }
-  .footer-grid p { max-width: 22rem; }
+  .site-footer { padding-top: var(--s-8); }
+  .site-footer :global(.footer-mark) { width: 100%; height: auto; opacity: 0.1; filter: grayscale(1); margin-bottom: var(--s-7); }
+  .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--s-6); padding-bottom: var(--s-6); }
+  .footer-grid :global(.footer-logo) { width: 150px; margin-bottom: var(--s-3); }
   .footer-h { font-size: var(--t-sm); font-weight: 600; color: var(--muted); margin-bottom: var(--s-3); letter-spacing: 0; }
   .footer-list { list-style: none; display: grid; gap: var(--s-2); font-size: var(--t-sm); }
   .footer-list a { text-decoration: none; }
@@ -222,7 +238,7 @@ const nav = [
     .quickbar {
       display: grid; grid-template-columns: repeat(3, 1fr);
       position: fixed; inset: auto 0 0 0; z-index: 40;
-      background: var(--ink); color: #fff;
+      background: var(--navy); color: #fff;
       padding-bottom: env(safe-area-inset-bottom);
     }
     .quickbar a {

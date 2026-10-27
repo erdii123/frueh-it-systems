@@ -1,10 +1,20 @@
 {
   "privat": {
-    "fernwartung": { "preis": "90.–", "hinweis": "Mindestpauschale, bis 45 Minuten" },
-    "vorOrt": { "preis": "120.–", "hinweis": "Mindestpauschale, bis 45 Minuten, Anfahrt vorab geklärt" },
+    "fernwartung": {
+      "preis": "90.–",
+      "hinweis": "Mindestpauschale, bis 45 Minuten"
+    },
+    "vorOrt": {
+      "preis": "120.–",
+      "hinweis": "Mindestpauschale, bis 45 Minuten, Anfahrt vorab geklärt"
+    },
     "weitere15": "30.–",
     "stunde": "120.–",
-    "guthaben": { "preis": "330.–", "minuten": 180, "gueltig": "12 Monate" }
+    "guthaben": {
+      "preis": "330.–",
+      "minuten": 180,
+      "gueltig": "12 Monate"
+    }
   },
   "firma": {
     "stunde": "140.–",
@@ -17,6 +27,7 @@
       "Microsoft-365-Basisadministration",
       "30 gepoolte Supportminuten je Arbeitsplatz",
       "Koordination weiterer IT-Anbieter"
-    ]
+    ],
+    "poolMinuten": 30
   }
 }

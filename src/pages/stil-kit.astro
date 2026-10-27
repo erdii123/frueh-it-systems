@@ -11,6 +11,12 @@ const farben = [
   ['Grün', '--green', '#18b564', 'Logo-Verlauf, Häkchen'],
   ['Grün Text', '--green-ink', '#0d7a42', 'Grüner Text (Kontrast AA)'],
   ['Violett', '--violet', '#6235ed', 'Logo-Verlauf, Auswahl, Fokus'],
+  ['Navy', '--navy', '#0a1024', 'Hero, Leistungen, Kontakt'],
+  ['Navy 2', '--navy-2', '#151b36', 'Karten auf Navy'],
+  ['Lila', '--lila', '#e9e3ff', 'Karte Unternehmen'],
+  ['Lila 2', '--lila-2', '#cfc2ff', 'Knopf auf Navy'],
+  ['Mint', '--mint', '#e2f2ea', 'Karte Privatpersonen'],
+  ['Mint 2', '--mint-2', '#d3eadf', 'Ablauf'],
 ];
 const typo = [
   ['H1', 'var(--t-2xl)', 700, 'IT-Support für Private und KMU.'],
@@ -28,7 +34,7 @@ const typo = [
       <p class="lead">Grundlagen der Website von Früh Systems. Intern, nicht indexiert.</p>
 
       <h2>Marke</h2>
-      <p>Wortmarke aus dem bestehenden Logo. Der Verlauf von Grün nach Violett stammt aus der Linie unter dem Logo und wird nur als Akzent eingesetzt: Fortschritt im Fallfinder, Linie über der Fusszeile, Kante an Preisboxen und Grundsätzen.</p>
+      <p>Wortmarke aus dem bestehenden Logo. Navy-Flächen, Lila und Mint stammen aus Nicks Demo-Seite. Der Verlauf von Grün nach Violett aus dem Logo bleibt Akzent: Fortschritt im Fallfinder und Linie beim Leitsatz.</p>
       <div class="gradline big"></div>
 
       <h2>Farben</h2>
@@ -58,7 +64,7 @@ const typo = [
       <div class="row-demo">
         <a class="btn btn-primary" href="#">Anfrage senden</a>
         <a class="btn btn-ghost" href="#">078 927 90 50 anrufen</a>
-        <span class="dark-demo"><a class="btn btn-light" href="#">Als Firma anfragen</a></span>
+        <span class="dark-demo"><a class="btn btn-lila" href="#">Dieses Thema besprechen</a></span>
       </div>
 
       <h2>Abstände</h2>
@@ -93,7 +99,7 @@ const typo = [
   .type { display: grid; gap: var(--s-4); }
   .type-row { display: grid; grid-template-columns: 4rem 1fr; gap: var(--s-4); align-items: baseline; border-top: 1px solid var(--line); padding-top: var(--s-3); }
   .row-demo { display: flex; flex-wrap: wrap; gap: var(--s-3); align-items: center; }
-  .dark-demo { background: var(--ink); padding: var(--s-3); border-radius: var(--r-md); }
+  .dark-demo { background: var(--navy); padding: var(--s-3); border-radius: var(--r-md); }
   .spaces { display: grid; gap: var(--s-2); }
   .spaces div { display: flex; align-items: center; gap: var(--s-3); }
   .spaces span { display: block; height: 1rem; background: var(--violet); border-radius: 2px; }
