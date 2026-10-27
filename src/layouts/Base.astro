@@ -191,7 +191,8 @@ const nav = [
     background: #fff; color: var(--ink); cursor: pointer; padding: 10px;
   }
   .mobile-menu {
-    margin-top: var(--s-2); background: #fff; border-radius: 18px; border: 1px solid var(--line);
+    position: absolute; left: 0; right: 0; top: calc(100% + var(--s-2));
+    background: #fff; border-radius: 18px; border: 1px solid var(--line);
     width: min(100% - 2 * var(--gutter), var(--wrap)); margin-inline: auto;
     padding-block: var(--s-4) var(--s-5);
     max-height: calc(100dvh - 6rem); overflow-y: auto;
