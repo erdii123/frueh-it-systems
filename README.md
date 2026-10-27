@@ -8,6 +8,12 @@ Neubau von frueh-systems.ch (heute Webflow) mit Astro, statisch. Gestaltung und 
 - `npm run build` – Vorschau-Build (noindex, robots.txt sperrt Crawler)
 - `npm run build:live` – Live-Build (indexierbar, Sitemap in robots.txt)
 
+## Seiten
+/, /privat/, /it-support/, /leistungen/, /preise-unternehmen/, /fernwartung/, /ueber-mich/, /kontakt/, /impressum/, /datenschutz/ (Entwurf, Freigabe durch Nick vor Livegang), /danke/, /404, /stil-kit/ (noindex). Alte Webflow-Adressen per 301 in `netlify.toml`.
+
+## Tracking
+Cookie-Banner auf allen Seiten. Google Analytics 4 (G-JDM51MK6SJ) mit Consent Mode lädt **nur im Live-Build** (`npm run build:live`) und nur nach Zustimmung. In der Vorschau ist der Banner bedienbar, sendet aber nichts. Ereignisse: phone_click, email_click, whatsapp_click, generate_lead.
+
 ## Inhalte
 - `src/data/site.json` – Firma, Kontakt, Google-Bewertungen
 - `src/data/preise.json` – alle Preise
@@ -20,6 +26,6 @@ Neubau von frueh-systems.ch (heute Webflow) mit Astro, statisch. Gestaltung und 
 
 ## Vor dem Livegang
 - X-Robots-Tag-Block in `netlify.toml` entfernen, Build auf `npm run build:live`.
-- Eigene Datenschutzerklärung (heute Link auf die bestehende Seite).
-- 301-Weiterleitungen der alten Webflow-Adressen.
+- Datenschutzerklärung (/datenschutz/) von Nick freigeben lassen, Stand-Datum setzen.
+- 301-Weiterleitungen sind eingerichtet; nach Umzug stichprobenweise prüfen.
 - Domain verbinden, kanonische Domain festlegen.

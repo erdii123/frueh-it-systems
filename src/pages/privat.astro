@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Kacheln from '../components/Kacheln.astro';
+import PreisePrivat from '../components/PreisePrivat.astro';
+import Ueber from '../components/Ueber.astro';
+import Faq from '../components/Faq.astro';
+import Kontakt from '../components/Kontakt.astro';
+import Icon from '../components/Icon.astro';
+import { faqPrivat } from '../data/faq';
+import { seitenSchema } from '../data/seo';
+
+const title = 'Computerhilfe für Privatpersonen | Früh Systems';
+const description = 'PC, Laptop, WLAN, Drucker oder E-Mail: persönliche Computerhilfe von Nick Früh. Fernwartung ab CHF 90.–, vor Ort in Winterthur und Frauenfeld ab CHF 120.–.';
+---
+<Base title={title} description={description} schema={seitenSchema('Privatpersonen', '/privat/', faqPrivat)}>
+  <PageHead
+    crumb="Privatpersonen"
+    titel="Computerhilfe für Privatpersonen."
+    lead="PC, WLAN oder E-Mail machen Probleme? Ich helfe persönlich, verständlich und mit klaren Kosten. Per Fernwartung oder bei Ihnen zu Hause."
+  />
+
+  <Kacheln
+    titel="Wobei ich helfe"
+    sub="Vorgehen und Kosten klären wir vor der Arbeit."
+    items={[
+      { icon: 'laptop', t: 'PC und Laptop', d: 'Störungen, langsame Geräte, neue Computer einrichten, Daten übernehmen.' },
+      { icon: 'wifi', t: 'WLAN, Drucker und E-Mail', d: 'Verbindungen prüfen, Geräte verbinden, Postfächer und Programme einrichten.' },
+      { icon: 'shield', t: 'Datensicherung und Sicherheit', d: 'Sicherung und Grundschutz prüfen und einrichten. Fernzugriff nur mit Ihrer Freigabe.' },
+    ]}
+  />
+
+  <section class="section pricing" id="preise">
+    <div class="wrap">
+      <div class="block-head"><h2>Was kostet die Hilfe?</h2><p>Reparaturen und Hardware beurteile ich je nach Befund.</p></div>
+      <PreisePrivat />
+    </div>
+  </section>
+
+  <section class="trust">
+    <div class="wrap">
+      <div class="note">
+        <Icon name="shield" />
+        <div>
+          <h2>Fernwartung nur nach Absprache.</h2>
+          <p>Öffnen Sie Fernwartungssoftware nur zum vereinbarten Termin. <a href="/fernwartung/">So läuft die Fernwartung</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Ueber titel="Ich bin persönlich für Sie da." />
+  <Faq items={faqPrivat} />
+  <Kontakt lead="Gerät, Problem und Wohnort reichen für den Einstieg. Ich melde mich persönlich." />
+</Base>
+
+<script>
+  // Formular auf dieser Seite für Privatpersonen vorbelegen
+  const r = document.querySelector<HTMLInputElement>('input[name="kundentyp"][value="Privatperson"]');
+  if (r && !document.querySelector('input[name="kundentyp"]:checked')) r.checked = true;
+</script>

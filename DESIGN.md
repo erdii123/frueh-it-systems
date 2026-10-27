@@ -9,6 +9,9 @@ Mischung mit Nicks Demo-Seite (demonick.vercel.app): dunkler Hero mit Glasbild, 
 ## Stand Runde 02 (27.10.2026)
 Einheitliche Masse: Knöpfe 48 px (`--h-btn`), Wahlfelder 44 px (`--h-chip`), Innenabstand Karten `--pad-card`, Navy-Blöcke so breit wie Header und Karten (`.panel`). Fallfinder-Fälle als 2-Spalten-Raster gleich grosser Kacheln. Mobiles Menü als Vollbild in Navy.
 
+## Stand Runde 04 (27.10.2026)
+Unterseiten aus gemeinsamen Bausteinen (`src/components/`): PageHead (dunkler Seitenkopf mit Glasbild und Brotkrumen), Kacheln, Leistungen, PreiseFirma, PreisePrivat, Ablauf, Ueber, Vertrauen, Faq, Kontakt, Consent. Gemeinsame Stile in `src/styles/blocks.css`.
+
 ## Prägendes Element
 Der **Fallfinder** im Hero: Für wen? → Was funktioniert nicht? → passender Weg mit Preis und vorausgefülltem Anfrageknopf. Der Grün-Violett-Verlauf aus dem Logo zeigt als Linie den Fortschritt. Alles andere bleibt ruhig.
 

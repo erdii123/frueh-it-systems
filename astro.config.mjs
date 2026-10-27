@@ -6,6 +6,6 @@ export default defineConfig({
   trailingSlash: 'always',
   build: { format: 'directory' },
   integrations: [
-    sitemap({ filter: (page) => !page.includes('/stil-kit/') && !page.includes('/danke/') }),
+    sitemap({ filter: (page) => !page.includes('/stil-kit/') && !page.includes('/danke/') && !page.includes('/404') }),
   ],
 });

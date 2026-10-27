@@ -1,0 +1,135 @@
+---
+import Icon from './Icon.astro';
+import site from '../data/site.json';
+interface Props { titel?: string; lead?: string }
+const { titel = 'Ein Gespräch genügt.', lead = 'Beschreiben Sie kurz Ihr Anliegen. Ich melde mich persönlich.' } = Astro.props;
+---
+<section class="contact panel on-dark" id="anfrage">
+  <div class="wrap contact-grid">
+    <div class="contact-intro">
+      <h2>{titel}</h2>
+      <p class="contact-lead">{lead}</p>
+      <a class="contact-phone" href={site.phoneHref}><Icon name="phone" />{site.phoneDisplay}</a>
+      <ul class="contact-links">
+        <li><a href={site.whatsapp} rel="noopener"><Icon name="chat" />WhatsApp schreiben</a></li>
+        <li><a href={`mailto:${site.email}`}><Icon name="mail" />{site.email}</a></li>
+      </ul>
+    </div>
+
+    <form class="form" name="anfrage" method="POST" action="/danke/" data-netlify="true" netlify-honeypot="bot-feld" novalidate>
+      <input type="hidden" name="form-name" value="anfrage" />
+      <p class="visually-hidden"><label>Nicht ausfüllen <input name="bot-feld" tabindex="-1" autocomplete="off" /></label></p>
+
+      <fieldset class="field">
+        <legend>Anfrage als <span aria-hidden="true">*</span></legend>
+        <div class="seg-form">
+          <label><input type="radio" name="kundentyp" value="Privatperson" required /><span>Privatperson</span></label>
+          <label><input type="radio" name="kundentyp" value="Selbständig" /><span>Selbständig</span></label>
+          <label><input type="radio" name="kundentyp" value="Unternehmen oder KMU" /><span>Unternehmen oder KMU</span></label>
+        </div>
+        <p class="error" data-error-for="kundentyp" hidden>Bitte wählen Sie aus, für wen die Anfrage ist.</p>
+      </fieldset>
+
+      <div class="row">
+        <div class="field">
+          <label for="f-name">Name <span aria-hidden="true">*</span></label>
+          <input id="f-name" name="name" autocomplete="name" required aria-describedby="e-name" />
+          <p class="error" id="e-name" data-error-for="name" hidden>Bitte geben Sie Ihren Namen an.</p>
+        </div>
+        <div class="field">
+          <label for="f-firma">Firma <span class="opt">(optional)</span></label>
+          <input id="f-firma" name="firma" autocomplete="organization" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="f-email">E-Mail <span aria-hidden="true">*</span></label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="e-email" />
+          <p class="error" id="e-email" data-error-for="email" hidden>Bitte geben Sie eine gültige E-Mail-Adresse an.</p>
+        </div>
+        <div class="field">
+          <label for="f-tel">Telefon <span class="opt">(optional)</span></label>
+          <input id="f-tel" name="telefon" type="tel" autocomplete="tel" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-msg">Worum geht es? <span aria-hidden="true">*</span></label>
+        <textarea id="f-msg" name="nachricht" rows="4" required aria-describedby="e-msg" placeholder="Was funktioniert nicht oder soll besser werden?"></textarea>
+        <p class="error" id="e-msg" data-error-for="nachricht" hidden>Bitte beschreiben Sie kurz Ihr Anliegen.</p>
+      </div>
+      <p class="small form-note">Bitte keine Passwörter senden. Es gilt die <a href={site.privacyUrl}>Datenschutzerklärung</a>.</p>
+      <button class="btn btn-lila" type="submit">Anfrage senden</button>
+    </form>
+  </div>
+</section>
+
+<script>
+  // Formular
+  const form = document.querySelector<HTMLFormElement>('form[name="anfrage"]');
+  if (form) {
+    const msg = form.querySelector<HTMLTextAreaElement>('textarea[name="nachricht"]')!;
+    const setTyp = (fuer: string) => {
+      const v = fuer === 'firma' ? 'Unternehmen oder KMU' : 'Privatperson';
+      const r = form.querySelector<HTMLInputElement>(`input[name="kundentyp"][value="${v}"]`);
+      if (r) r.checked = true;
+    };
+    const prefill = (thema: string, fuer?: string) => {
+      if (fuer) setTyp(fuer);
+      if (!msg.value.trim() || msg.dataset.prefilled === 'true') {
+        msg.value = `Thema: ${thema}\n\n`;
+        msg.dataset.prefilled = 'true';
+      }
+      setTimeout(() => msg.focus({ preventScroll: true }), 450);
+    };
+    document.addEventListener('anfrage:vorbelegen', (e) => {
+      const { fuer, thema } = (e as CustomEvent).detail;
+      prefill(thema, fuer);
+    });
+    document.querySelectorAll<HTMLAnchorElement>('[data-thema]').forEach((a) =>
+      a.addEventListener('click', () => {
+        let thema = a.dataset.thema!;
+        if (thema === 'Betreute Arbeitsplätze') {
+          const n = document.querySelector<HTMLInputElement>('#calc-n')?.value;
+          if (n) thema = `Betreuung von ${n} Arbeitsplätzen`;
+        }
+        prefill(thema, a.dataset.typ);
+      })
+    );
+
+    const show = (name: string, on: boolean) => {
+      const el = form.querySelector<HTMLElement>(`[data-error-for="${name}"]`);
+      if (el) el.hidden = !on;
+      form.querySelectorAll<HTMLInputElement>(`[name="${name}"]`).forEach((i) => i.setAttribute('aria-invalid', String(on)));
+    };
+    const check = () => {
+      let first: HTMLElement | null = null;
+      ['kundentyp', 'name', 'email', 'nachricht'].forEach((n) => {
+        const fields = form.querySelectorAll<HTMLInputElement>(`[name="${n}"]`);
+        const valid = n === 'kundentyp' ? [...fields].some((f) => f.checked) : fields[0].checkValidity() && fields[0].value.trim() !== '';
+        show(n, !valid);
+        if (!valid && !first) first = fields[0];
+      });
+      return first as HTMLElement | null;
+    };
+    form.addEventListener('submit', (e) => {
+      const first = check();
+      if (first) { e.preventDefault(); first.focus(); return; }
+      const typ = form.querySelector<HTMLInputElement>('input[name="kundentyp"]:checked')?.value ?? '';
+      document.dispatchEvent(new CustomEvent('fs:lead', { detail: { lead_type: typ } }));
+    });
+    form.addEventListener('input', (e) => {
+      const n = (e.target as HTMLInputElement).name;
+      const err = form.querySelector<HTMLElement>(`[data-error-for="${n}"]`);
+      if (err && !err.hidden) check();
+    });
+  }
+  // Vorbelegung über Adresse, z. B. /kontakt/?kundentyp=privat
+  if (form) {
+    const typ = new URLSearchParams(location.search).get('kundentyp');
+    if (typ === 'privat' || typ === 'firma') {
+      const v = typ === 'firma' ? 'Unternehmen oder KMU' : 'Privatperson';
+      const r = form.querySelector<HTMLInputElement>(`input[name="kundentyp"][value="${v}"]`);
+      if (r) r.checked = true;
+    }
+  }
+</script>

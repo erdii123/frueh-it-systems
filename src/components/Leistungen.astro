@@ -1,0 +1,51 @@
+---
+import Icon from './Icon.astro';
+import { leistungen } from '../data/leistungen';
+interface Props { titel?: string; sub?: string; as?: 'h1' | 'h2' }
+const { titel = 'Ihre IT kann mehr.', sub = 'Sieben Bereiche, ein Ansprechpartner.' } = Astro.props;
+---
+<section class="services panel on-dark" id="leistungen">
+  <div class="wrap">
+    <div class="services-head">
+      <h2>{titel}</h2>
+      <p>{sub}</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-tabs" role="tablist" aria-label="Leistungen" aria-orientation="vertical">
+        {leistungen.map((l, i) => (
+          <button type="button" role="tab" id={`tab-${l.id}`} aria-controls={`panel-${l.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+            <Icon name={l.icon} />
+            <span>{l.tab}</span>
+          </button>
+        ))}
+      </div>
+      {leistungen.map((l, i) => (
+        <div class="service-panel" role="tabpanel" id={`panel-${l.id}`} aria-labelledby={`tab-${l.id}`} hidden={i !== 0}>
+          <div class="sp-copy">
+            <h3>{l.titel}</h3>
+            <ul class="checks">{l.punkte.map((pt) => <li>{pt}</li>)}</ul>
+            <a class="btn btn-lila" href="#anfrage" data-thema={l.tab}>Dieses Thema besprechen</a>
+          </div>
+          <div class="sp-diagram" aria-hidden="true">
+            <span class="sp-root"><Icon name={l.icon} />{l.mitte}</span>
+            <span class="sp-lines"></span>
+            <span class="sp-leaves">{l.teile.map((t) => <span>{t}</span>)}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { tabs } from '../scripts/tabs';
+  const list = document.querySelector<HTMLElement>('.service-tabs');
+  if (list) {
+    const mq = matchMedia('(max-width: 860px)');
+    const orient = () => list.setAttribute('aria-orientation', mq.matches ? 'horizontal' : 'vertical');
+    orient(); mq.addEventListener('change', orient);
+    tabs(list, (tab) => {
+      if (mq.matches) list.scrollTo({ left: tab.offsetLeft - list.offsetLeft - 8, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    });
+  }
+</script>

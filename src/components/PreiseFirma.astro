@@ -1,0 +1,74 @@
+---
+import p from '../data/preise.json';
+---
+<div class="price-grid">
+  <article class="price">
+    <h3>Support nach Aufwand</h3>
+    <p class="amount"><span class="cur">CHF</span>{p.firma.stunde}</p>
+    <p class="per">pro Stunde, in 15-Minuten-Schritten</p>
+    <ul class="checks">
+      <li>Remote oder vor Ort</li>
+      <li>Keine monatlichen Kosten</li>
+      <li>Vor Ort: mindestens 1 Stunde</li>
+    </ul>
+    <a class="btn btn-ghost" href="#anfrage" data-thema="Support nach Aufwand" data-typ="firma">Support anfragen</a>
+  </article>
+  <article class="price price-dark on-dark">
+    <h3>Betreuter Arbeitsplatz</h3>
+    <p class="amount"><span class="cur">ab CHF</span>{p.firma.arbeitsplatz}</p>
+    <p class="per">pro Arbeitsplatz und Monat</p>
+    <ul class="checks">
+      <li>Monitoring und Patch-Management</li>
+      <li>Inventar und IT-Dokumentation</li>
+      <li>Microsoft-365-Basisadministration</li>
+      <li>{p.firma.poolMinuten} gepoolte Supportminuten je Arbeitsplatz</li>
+    </ul>
+    <a class="btn btn-lila" href="#anfrage" data-thema="Betreute Arbeitsplätze" data-typ="firma">Betreuung besprechen</a>
+  </article>
+</div>
+
+<div class="calc" data-calc data-preis={parseInt(p.firma.arbeitsplatz)} data-minuten={p.firma.poolMinuten}>
+  <div class="calc-in">
+    <label for="calc-n" class="calc-label">Wie viele Arbeitsplätze?</label>
+    <div class="stepper">
+      <button type="button" data-step="-1" aria-label="Ein Arbeitsplatz weniger">−</button>
+      <input id="calc-n" type="number" inputmode="numeric" min="1" max="100" value="5" />
+      <button type="button" data-step="1" aria-label="Ein Arbeitsplatz mehr">+</button>
+    </div>
+    <input type="range" min="1" max="100" value="5" aria-label="Arbeitsplätze einstellen" data-range />
+    <div class="presets" role="group" aria-label="Schnellwahl">
+      {[1, 5, 10, 25].map((n) => <button type="button" data-preset={n} aria-pressed={n === 5 ? 'true' : 'false'}>{n === 1 ? 'Solo' : `${n} Personen`}</button>)}
+    </div>
+  </div>
+  <div class="calc-out" aria-live="polite">
+    <p class="small muted">Unverbindlicher Richtwert</p>
+    <p class="calc-price" data-out-preis>ab CHF 495.–</p>
+    <p class="small muted"><span data-out-text>pro Monat, 150 gepoolte Supportminuten</span></p>
+  </div>
+</div>
+<p class="fine">Genauer Umfang nach einer kurzen Bestandsaufnahme. Onboarding, Lizenzen, Vor-Ort-Termine, Projekte, Server und NAS separat. Keine Flatrate, keine feste Reaktionszeit.</p>
+
+<script>
+  const calc = document.querySelector<HTMLElement>('[data-calc]');
+  if (calc) {
+    const preis = Number(calc.dataset.preis), minuten = Number(calc.dataset.minuten);
+    const num = calc.querySelector<HTMLInputElement>('#calc-n')!;
+    const range = calc.querySelector<HTMLInputElement>('[data-range]')!;
+    const fmt = new Intl.NumberFormat('de-CH');
+    const set = (v: number) => {
+      const n = Math.max(1, Math.min(100, Math.round(v) || 1));
+      num.value = String(n); range.value = String(n);
+      range.setAttribute('aria-valuetext', `${n} Arbeitsplätze`);
+      calc.querySelector('[data-out-preis]')!.textContent = `ab CHF ${fmt.format(n * preis)}.–`;
+      calc.querySelector('[data-out-text]')!.textContent = `pro Monat, ${fmt.format(n * minuten)} gepoolte Supportminuten`;
+      calc.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.preset) === n)));
+      calc.querySelector<HTMLButtonElement>('[data-step="-1"]')!.disabled = n <= 1;
+      calc.querySelector<HTMLButtonElement>('[data-step="1"]')!.disabled = n >= 100;
+    };
+    num.addEventListener('change', () => set(Number(num.value)));
+    range.addEventListener('input', () => set(Number(range.value)));
+    calc.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((b) => b.addEventListener('click', () => set(Number(num.value) + Number(b.dataset.step))));
+    calc.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach((b) => b.addEventListener('click', () => set(Number(b.dataset.preset))));
+    set(5);
+  }
+</script>

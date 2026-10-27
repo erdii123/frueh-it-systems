@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import PreiseFirma from '../components/PreiseFirma.astro';
+import Faq from '../components/Faq.astro';
+import Kontakt from '../components/Kontakt.astro';
+import p from '../data/preise.json';
+import { faqPreiseFirma } from '../data/faq';
+import { seitenSchema } from '../data/seo';
+
+const title = 'IT-Support Preise pro Arbeitsplatz für KMU | Früh Systems';
+const description = 'IT-Support für KMU ab CHF 140.– pro Stunde oder laufende Betreuung ab CHF 99.– pro Arbeitsplatz und Monat. Klarer Umfang, persönliche Betreuung.';
+const zeiten = [
+  ['15 Minuten', 'CHF 35.–'],
+  ['30 Minuten', 'CHF 70.–'],
+  ['45 Minuten', 'CHF 105.–'],
+  ['60 Minuten', 'CHF 140.–'],
+];
+---
+<Base title={title} description={description} schema={seitenSchema('Preise Unternehmen', '/preise-unternehmen/', faqPreiseFirma)}>
+  <PageHead
+    crumb="Preise Unternehmen"
+    titel="Flexibel oder laufend betreut."
+    lead={`Starten Sie mit einem einzelnen Supportfall zu CHF ${p.firma.stunde} pro Stunde oder mit der Betreuung pro Arbeitsplatz.`}
+    cta="Passendes Modell besprechen"
+  />
+
+  <section class="section pricing" id="preise">
+    <div class="wrap">
+      <div class="block-head"><h2>Zwei klare Modelle.</h2><p>Grössere Vorhaben offeriere ich vorab mit festem Kostenrahmen.</p></div>
+      <PreiseFirma />
+      <table class="rate-table">
+        <caption>Support nach Aufwand, abgerechnet in 15-Minuten-Schritten</caption>
+        <tbody>
+          {zeiten.map(([z, b]) => <tr><th scope="row">{z}</th><td>{b}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap duo">
+      <article class="white">
+        <h3>Im Ansatz enthalten</h3>
+        <ul class="checks">
+          <li>Effektiver Aufwand in 15-Minuten-Schritten</li>
+          <li>Offerte für grössere Arbeiten auf Wunsch</li>
+          <li>Beschaffung nur nach Absprache</li>
+          <li>Nachvollziehbare Abrechnung</li>
+        </ul>
+      </article>
+      <article class="mint">
+        <h3>Separat ausgewiesen</h3>
+        <p>Hardware, Softwarelizenzen, Abos, Leistungen Dritter, Material und Anfahrt nenne ich Ihnen vorab.</p>
+        <p class="small muted">Ein Arbeitsplatz ist ein benannter Benutzer mit einem primären, betreuten Computer.</p>
+      </article>
+    </div>
+  </section>
+
+  <Faq items={faqPreiseFirma} titel="Damit keine Kostenfrage offenbleibt." />
+  <Kontakt titel="Welches IT-Thema lösen wir zuerst?" lead="Sie erhalten eine persönliche Einschätzung zum Vorgehen und zur passenden Abrechnung." />
+</Base>
+
+<script>
+  const r = document.querySelector<HTMLInputElement>('input[name="kundentyp"][value="Unternehmen oder KMU"]');
+  if (r && !document.querySelector('input[name="kundentyp"]:checked')) r.checked = true;
+</script>

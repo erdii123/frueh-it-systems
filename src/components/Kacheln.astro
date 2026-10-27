@@ -1,0 +1,24 @@
+---
+// Raster gleich grosser Kacheln mit Icon, Titel und einer Zeile (Unterseiten)
+import Icon from './Icon.astro';
+interface Props { titel: string; sub?: string; items: { icon: string; t: string; d: string }[]; id?: string }
+const { titel, sub, items, id } = Astro.props;
+---
+<section class="section" id={id}>
+  <div class="wrap">
+    <div class="block-head">
+      <h2>{titel}</h2>
+      {sub && <p>{sub}</p>}
+    </div>
+    <ul class="tiles">
+      {items.map((k) => (
+        <li class="tile">
+          <Icon name={k.icon} />
+          <h3>{k.t}</h3>
+          <p>{k.d}</p>
+        </li>
+      ))}
+    </ul>
+    <slot />
+  </div>
+</section>

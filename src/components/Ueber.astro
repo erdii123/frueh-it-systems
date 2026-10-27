@@ -1,0 +1,34 @@
+---
+import { Image } from 'astro:assets';
+import nick from '../assets/nick-frueh.jpg';
+import site from '../data/site.json';
+interface Props { titel?: string; mitBewertungen?: boolean }
+const { titel = 'Hinter Ihrer IT steht ein Mensch.', mitBewertungen = true } = Astro.props;
+---
+<section class="section about" id="ueber-mich">
+  <div class="wrap about-grid">
+    <figure class="about-photo">
+      <Image src={nick} alt="Nick Früh, Inhaber von Früh Systems" width={520} widths={[360, 520, 768]} sizes="(max-width: 760px) 100vw, 460px" />
+      <figcaption><strong>Nick Früh</strong><span>Ihr persönlicher IT-Ansprechpartner</span></figcaption>
+    </figure>
+    <div class="about-copy">
+      <h2>{titel}</h2>
+      <p class="lead">Hallo, ich bin Nick Früh. Seit {site.experienceYears} Jahren in der IT. Ich höre zu, erkläre verständlich und setze erst nach Ihrer Freigabe um.</p>
+      <slot />
+      <p class="motto">Zuerst verstehen. Dann sinnvoll lösen.</p>
+      <dl class="numbers">
+        <div><dt>Jahre IT-Erfahrung</dt><dd>{site.experienceYears}</dd></div>
+        <div><dt>direkter Ansprechpartner</dt><dd>1</dd></div>
+        <div><dt>auf Google</dt><dd>{site.google.rating}</dd></div>
+      </dl>
+      {mitBewertungen && (
+        <>
+          <ul class="quotes">
+            {site.google.quotes.map((q) => <li><blockquote>«{q.text}»</blockquote><span class="small muted">{q.author}</span></li>)}
+          </ul>
+          <a href={site.google.url} rel="noopener" class="small quotes-link">Bewertungen auf Google lesen</a>
+        </>
+      )}
+    </div>
+  </div>
+</section>

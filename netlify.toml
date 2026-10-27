@@ -16,3 +16,89 @@
   for = "/_astro/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Weiterleitungen der alten Webflow-Adressen (Runde 04)
+[[redirects]]
+  from = "/uber-uns"
+  to = "/ueber-mich/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/uber-uns/"
+  to = "/ueber-mich/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/contact"
+  to = "/kontakt/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/contact/"
+  to = "/kontakt/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/it-service"
+  to = "/privat/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/it-service/"
+  to = "/privat/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/servicepreise"
+  to = "/privat/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/servicepreise/"
+  to = "/privat/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/computer-service-privat"
+  to = "/privat/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/computer-service-privat/"
+  to = "/privat/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/preisliste-privatkunden"
+  to = "/privat/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/preisliste-privatkunden/"
+  to = "/privat/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/preisliste-firmenkunden"
+  to = "/preise-unternehmen/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/preisliste-firmenkunden/"
+  to = "/preise-unternehmen/"
+  status = 301
+  force = true
+

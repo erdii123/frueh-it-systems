@@ -1,0 +1,18 @@
+---
+import type { Frage } from '../data/faq';
+interface Props { items: Frage[]; titel?: string }
+const { items, titel = 'Noch eine Frage?' } = Astro.props;
+---
+<section class="section" id="fragen">
+  <div class="wrap faq-grid">
+    <h2>{titel}</h2>
+    <div class="faq">
+      {items.map((f) => (
+        <details name="faq">
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

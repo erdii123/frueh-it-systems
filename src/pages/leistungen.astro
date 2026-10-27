@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Leistungen from '../components/Leistungen.astro';
+import Ablauf from '../components/Ablauf.astro';
+import Faq from '../components/Faq.astro';
+import Kontakt from '../components/Kontakt.astro';
+import { faqLeistungen } from '../data/faq';
+import { seitenSchema } from '../data/seo';
+
+const title = 'Microsoft 365, Backup & Netzwerk für KMU | Früh Systems';
+const description = 'IT-Services für KMU: Arbeitsplätze, Microsoft 365, Backup, IT-Sicherheit, Netzwerk, Geräte und Software-Testing. Persönlich betreut, remote oder vor Ort.';
+---
+<Base title={title} description={description} schema={seitenSchema('Leistungen', '/leistungen/', faqLeistungen)}>
+  <PageHead
+    crumb="Leistungen"
+    titel="IT-Services, die den Alltag entlasten."
+    lead="Zuerst das Ziel, dann die Technik. Umfang und Reihenfolge richten sich nach Ihrem Betrieb, nicht nach einem überdimensionierten Standardpaket."
+  />
+
+  <div class="section"><Leistungen titel="Sieben Bereiche." sub="Ein Ansprechpartner für alles." /></div>
+
+  <Ablauf
+    titel="So bleibt das Vorgehen nachvollziehbar."
+    schritte={[
+      { t: 'Ziel klären.', d: 'Was soll einfacher, sicherer oder stabiler werden?' },
+      { t: 'Situation verstehen.', d: 'Geräte, Dienste und Abhängigkeiten einordnen.' },
+      { t: 'Prioritäten festlegen.', d: 'Empfehlung, Reihenfolge und Kostenrahmen.' },
+      { t: 'Schrittweise umsetzen.', d: 'Vereinbarte Massnahmen sauber übergeben.' },
+    ]}
+  />
+
+  <Faq items={faqLeistungen} titel="Welche Leistung passt?" />
+  <Kontakt titel="Was soll in Ihrer IT besser laufen?" lead="Schildern Sie die Situation und das gewünschte Ergebnis. Ich empfehle den nächsten Schritt." />
+</Base>

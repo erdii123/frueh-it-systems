@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Kacheln from '../components/Kacheln.astro';
+import Ablauf from '../components/Ablauf.astro';
+import Faq from '../components/Faq.astro';
+import Kontakt from '../components/Kontakt.astro';
+import Icon from '../components/Icon.astro';
+import p from '../data/preise.json';
+import { faqFirma } from '../data/faq';
+import { seitenSchema } from '../data/seo';
+
+const title = 'IT-Support für KMU Winterthur & Frauenfeld | Früh Systems';
+const description = 'IT-Betreuung für KMU: Microsoft 365, PCs, WLAN und Backup. Ein Ansprechpartner, vor Ort in Winterthur, Frauenfeld und Umgebung oder per Fernwartung.';
+---
+<Base title={title} description={description} schema={seitenSchema('Unternehmen', '/it-support/', faqFirma)}>
+  <PageHead
+    crumb="Unternehmen"
+    titel="IT-Support für KMU. Ein Ansprechpartner."
+    lead="Für einzelne Supportfälle oder die laufende Betreuung, auch ohne eigene IT-Abteilung. Per Fernwartung oder bei Ihnen im Büro."
+  />
+
+  <Kacheln
+    titel="Typische Supportfälle"
+    sub={`Ab CHF ${p.firma.stunde} pro Stunde oder ab CHF ${p.firma.arbeitsplatz} pro Arbeitsplatz und Monat.`}
+    items={[
+      { icon: 'mail', t: 'Outlook und E-Mail', d: 'Versand, Synchronisation, Signaturen, Konten oder Berechtigungen.' },
+      { icon: 'apps', t: 'Benutzer und Zugänge', d: 'Passwort, Anmeldung, neue Mitarbeitende oder fehlende Rechte.' },
+      { icon: 'monitor', t: 'PC und Programme', d: 'Langsame Geräte, Fehlermeldungen, Updates, Installationen.' },
+      { icon: 'wifi', t: 'Netzwerk und WLAN', d: 'Abbrüche, schlechter Empfang, VPN oder Gerät nicht erreichbar.' },
+      { icon: 'laptop', t: 'Drucker und Geräte', d: 'Drucker, Scanner, Bildschirme oder Zubehör werden nicht erkannt.' },
+      { icon: 'shield', t: 'Backup und Sicherheit', d: 'Unsichere Meldungen, Virenverdacht, Backup-Fragen.' },
+    ]}
+  >
+    <p class="fine">Ihr Fall ist nicht dabei? Eine kurze Beschreibung oder ein Foto der Fehlermeldung genügt. Bitte keine Passwörter senden.</p>
+  </Kacheln>
+
+  <section class="section">
+    <div class="wrap duo">
+      <article class="lila">
+        <Icon name="link" class="aud-icon" />
+        <h3>Schluss mit dem Zuständigkeits-Pingpong.</h3>
+        <p>Branchensoftware, Internetanbieter, Microsoft: Ich nehme das Problem an einer Stelle auf, kläre, wer zuständig ist, und koordiniere bis zum nächsten klaren Schritt.</p>
+        <ul class="checks">
+          <li>Microsoft 365, E-Mail und Benutzer</li>
+          <li>Internet, WLAN, Netzwerk und Telefonie</li>
+          <li>Abstimmung mit Software- und Hardwareanbietern</li>
+          <li>Dokumentierter Stand statt verlorener Informationen</li>
+        </ul>
+      </article>
+      <article class="white">
+        <h3>Fernwartung oder vor Ort</h3>
+        <p>Der Weg richtet sich nach der Ursache. So sparen Sie unnötige Anfahrt.</p>
+        <ul class="checks">
+          <li>Fernwartung: Outlook, Microsoft 365, Zugänge, Programme, Updates</li>
+          <li>Vor Ort: Netzwerk, Router, Hardware, Drucker, neue Arbeitsplätze</li>
+          <li>Zugriff nur nach Ihrer ausdrücklichen Freigabe</li>
+        </ul>
+        <a class="btn btn-ghost" href="/fernwartung/">Zur Fernwartung</a>
+      </article>
+    </div>
+  </section>
+
+  <Ablauf
+    titel="Vier Schritte statt Hin und Her."
+    schritte={[
+      { t: 'Problem schildern.', d: 'Gerät, betroffene Person und Fehlermeldung kurz nennen.' },
+      { t: 'Weg klären.', d: 'Ich ordne ein, wer betroffen ist und welcher Weg passt.' },
+      { t: 'Kosten freigeben.', d: 'Sie bestätigen Vorgehen und Rahmen vor der Arbeit.' },
+      { t: 'Lösung umsetzen.', d: 'Nachvollziehbar bearbeitet und abgeschlossen.' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="wrap duo">
+      <article class="white">
+        <h3>Support nach Aufwand</h3>
+        <p class="amount"><span class="cur">CHF</span>{p.firma.stunde}</p>
+        <p class="muted small">pro Stunde, in 15-Minuten-Schritten</p>
+      </article>
+      <article class="white">
+        <h3>Betreuter Arbeitsplatz</h3>
+        <p class="amount"><span class="cur">ab CHF</span>{p.firma.arbeitsplatz}</p>
+        <p class="muted small">pro Arbeitsplatz und Monat, schon ab einem Arbeitsplatz</p>
+      </article>
+    </div>
+    <div class="wrap" style="margin-top: var(--s-5)">
+      <a class="btn btn-primary" href="/preise-unternehmen/">Alle Preise für Unternehmen</a>
+    </div>
+  </section>
+
+  <Faq items={faqFirma} />
+  <Kontakt titel="Was soll als Nächstes gelöst werden?" lead="Beschreiben Sie Ihr Anliegen. Sie erhalten eine persönliche Einschätzung zum passenden Vorgehen." />
+</Base>
+
+<script>
+  const r = document.querySelector<HTMLInputElement>('input[name="kundentyp"][value="Unternehmen oder KMU"]');
+  if (r && !document.querySelector('input[name="kundentyp"]:checked')) r.checked = true;
+</script>

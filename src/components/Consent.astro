@@ -1,0 +1,139 @@
+---
+// Cookie-Banner und Google Analytics 4 (G-JDM51MK6SJ) wie auf frueh-systems.ch.
+// Der Google-Tag wird nur im Live-Build (LIVE=1) und nur nach Zustimmung geladen.
+const live = process.env.LIVE === '1';
+---
+<div class="consent" id="consent" role="dialog" aria-labelledby="consent-h" aria-describedby="consent-d" hidden data-live={live ? 'true' : 'false'}>
+  <h2 id="consent-h">Datenschutz-Einstellungen</h2>
+  <p id="consent-d">Notwendige Dienste sichern den Betrieb. Statistik und Werbemessung werden erst nach Ihrer Auswahl aktiviert. <a href="/datenschutz/">Datenschutzerklärung</a></p>
+  <div class="consent-choices" hidden data-consent-choices>
+    <label class="consent-opt">
+      <input type="checkbox" data-cat="analytics" />
+      <span><strong>Analytics</strong><br />Google Analytics 4 zur statistischen Verbesserung der Website.</span>
+    </label>
+    <label class="consent-opt">
+      <input type="checkbox" data-cat="marketing" />
+      <span><strong>Marketing</strong><br />Google Ads für nicht personalisierte Conversion-Messung.</span>
+    </label>
+    <p class="consent-note">Die Auswahl wird 180 Tage lokal gespeichert und kann jederzeit über «Cookie-Einstellungen» im Seitenfuss geändert werden.</p>
+  </div>
+  <div class="consent-actions">
+    <button type="button" class="btn btn-ghost" data-consent="none">Nur notwendige</button>
+    <button type="button" class="btn btn-ghost" data-consent="custom" aria-expanded="false">Auswahl anpassen</button>
+    <button type="button" class="btn btn-primary" data-consent="all">Alle erlauben</button>
+  </div>
+</div>
+
+<script>
+  type Wahl = { analytics: boolean; marketing: boolean; ts: number };
+  const KEY = 'fs_consent_v2';
+  const MAX = 180 * 24 * 60 * 60 * 1000;
+  const GA = 'G-JDM51MK6SJ';
+  const box = document.getElementById('consent')!;
+  const live = box.dataset.live === 'true';
+  const choices = box.querySelector<HTMLElement>('[data-consent-choices]')!;
+  const customBtn = box.querySelector<HTMLButtonElement>('[data-consent="custom"]')!;
+  const cats = [...box.querySelectorAll<HTMLInputElement>('[data-cat]')];
+
+  const w = window as unknown as { dataLayer: unknown[]; gtag: (...a: unknown[]) => void };
+  w.dataLayer = w.dataLayer || [];
+  w.gtag = function () { w.dataLayer.push(arguments); };
+  w.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
+  w.gtag('set', 'url_passthrough', false);
+  w.gtag('set', 'ads_data_redaction', true);
+
+  const lesen = (): Wahl | null => {
+    try {
+      const v = JSON.parse(localStorage.getItem(KEY) || 'null') as Wahl | null;
+      if (v && Date.now() - v.ts < MAX) return v;
+    } catch {}
+    return null;
+  };
+  let geladen = false;
+  const anwenden = (v: Wahl) => {
+    w.gtag('consent', 'update', {
+      analytics_storage: v.analytics ? 'granted' : 'denied',
+      ad_storage: v.marketing ? 'granted' : 'denied',
+      ad_user_data: v.marketing ? 'granted' : 'denied',
+      ad_personalization: 'denied',
+    });
+    if (live && (v.analytics || v.marketing) && !geladen) {
+      geladen = true;
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = `https://www.googletagmanager.com/gtag/js?id=${GA}`;
+      document.head.append(s);
+      w.gtag('js', new Date());
+      w.gtag('config', GA);
+    }
+  };
+  const speichern = (analytics: boolean, marketing: boolean) => {
+    const v = { analytics, marketing, ts: Date.now() };
+    try { localStorage.setItem(KEY, JSON.stringify(v)); } catch {}
+    anwenden(v);
+    box.hidden = true;
+  };
+  const zeigen = (mitAuswahl = false) => {
+    const v = lesen();
+    cats.forEach((c) => (c.checked = v ? Boolean(v[c.dataset.cat as 'analytics' | 'marketing']) : false));
+    choices.hidden = !mitAuswahl;
+    customBtn.textContent = mitAuswahl ? 'Auswahl speichern' : 'Auswahl anpassen';
+    customBtn.setAttribute('aria-expanded', String(mitAuswahl));
+    box.hidden = false;
+    box.querySelector<HTMLElement>('button')?.focus({ preventScroll: true });
+  };
+
+  box.querySelector('[data-consent="none"]')!.addEventListener('click', () => speichern(false, false));
+  box.querySelector('[data-consent="all"]')!.addEventListener('click', () => speichern(true, true));
+  customBtn.addEventListener('click', () => {
+    if (choices.hidden) { zeigen(true); cats[0]?.focus(); return; }
+    speichern(cats[0].checked, cats[1].checked);
+  });
+  document.querySelectorAll('[data-consent-open]').forEach((b) => b.addEventListener('click', () => zeigen(true)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !box.hidden && lesen()) box.hidden = true; });
+
+  const vorhanden = lesen();
+  if (vorhanden) anwenden(vorhanden);
+  else {
+    // Erst nach dem Laden der Schrift einblenden, damit nichts nachträglich umbricht
+    const show = () => { box.hidden = false; };
+    (document.fonts?.ready ?? Promise.resolve()).then(show, show);
+  }
+
+  // Conversion-Ereignisse wie auf der Live-Seite (ohne Nummern, Adressen oder Nachrichteninhalt)
+  const senden = (name: string, lead_type: string) => {
+    if (!geladen) return;
+    w.gtag('event', name, { lead_type, page_location: location.href, transport_type: 'beacon' });
+  };
+  document.addEventListener('click', (e) => {
+    const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href]');
+    if (!a) return;
+    const h = a.getAttribute('href')!;
+    if (h.startsWith('tel:')) senden('phone_click', 'telefon');
+    else if (h.startsWith('mailto:')) senden('email_click', 'email');
+    else if (h.includes('wa.me/')) senden('whatsapp_click', 'whatsapp');
+  });
+  document.addEventListener('fs:lead', (e) => senden('generate_lead', (e as CustomEvent).detail?.lead_type || 'formular'));
+</script>
+
+<style>
+  .consent {
+    position: fixed; z-index: 70; left: var(--gutter); bottom: var(--gutter);
+    width: min(30rem, calc(100% - 2 * var(--gutter)));
+    display: grid; gap: var(--s-3); padding: var(--s-5);
+    background: #fff; color: var(--ink); border: 1px solid var(--line); border-radius: var(--r-lg);
+    box-shadow: 0 24px 60px -24px rgb(10 16 36 / 0.45);
+  }
+  .consent[hidden] { display: none; }
+  .consent h2 { font-size: var(--t-md); }
+  .consent p { font-size: 0.93rem; color: var(--ink-2); }
+  .consent-choices { display: grid; gap: var(--s-2); }
+  .consent-opt { display: flex; gap: var(--s-3); align-items: flex-start; padding: var(--s-3); border: 1px solid var(--line); border-radius: var(--r-md); font-size: 0.9rem; cursor: pointer; }
+  .consent-opt input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--violet); flex: none; }
+  .consent-note { font-size: var(--t-sm) !important; color: var(--muted) !important; }
+  .consent-actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-2); }
+  .consent-actions .btn { padding: 0 var(--s-3); font-size: 0.93rem; }
+  .consent-actions .btn-primary { grid-column: 1 / -1; }
+  @media (max-width: 640px) { .consent { bottom: calc(56px + var(--s-3)); } }
+  @media (max-width: 380px) { .consent { padding: var(--s-4); } .consent-actions { grid-template-columns: 1fr; } }
+</style>

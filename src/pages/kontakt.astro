@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Kontakt from '../components/Kontakt.astro';
+import site from '../data/site.json';
+import { seitenSchema } from '../data/seo';
+
+const title = 'IT-Service anfragen & Kontakt | Früh Systems';
+const description = 'IT-Service oder Reparatur anfragen: per Telefon 078 927 90 50, WhatsApp, E-Mail oder Formular. Nick Früh meldet sich persönlich, remote oder vor Ort.';
+---
+<Base title={title} description={description} schema={seitenSchema('Kontakt', '/kontakt/')}>
+  <PageHead
+    crumb="Kontakt"
+    titel="Wie kann ich helfen?"
+    lead={`Beschreiben Sie kurz Ihr Anliegen. Vor Ort in ${site.region}, Fernwartung in der ganzen Schweiz.`}
+    cta="Zum Formular"
+  />
+  <div class="section kontakt-seite">
+    <Kontakt titel="Direkt anfragen." lead="WhatsApp eignet sich für eine kurze Beschreibung oder ein Foto der Fehlermeldung. Bitte keine Passwörter senden." />
+  </div>
+</Base>

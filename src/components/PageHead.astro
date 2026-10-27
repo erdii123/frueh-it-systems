@@ -1,0 +1,29 @@
+---
+// Dunkler Seitenkopf für Unterseiten: Brotkrumen, H1, ein Satz, Knöpfe
+import { Image } from 'astro:assets';
+import glas from '../assets/hero-glas.webp';
+import Icon from './Icon.astro';
+import site from '../data/site.json';
+interface Props { titel: string; lead: string; crumb: string; cta?: string; ctaHref?: string; anrufen?: boolean }
+const { titel, lead, crumb, cta = 'Anfrage senden', ctaHref = '#anfrage', anrufen = true } = Astro.props;
+---
+<section class="page-head on-dark">
+  <div class="ph-art" aria-hidden="true">
+    <Image src={glas} alt="" widths={[768, 1280]} sizes="(max-width: 900px) 120vw, 60vw" loading="eager" fetchpriority="high" />
+  </div>
+  <div class="wrap ph-inner">
+    <nav aria-label="Brotkrumen" class="crumbs">
+      <ol>
+        <li><a href="/">Start</a></li>
+        <li aria-current="page">{crumb}</li>
+      </ol>
+    </nav>
+    <h1>{titel}</h1>
+    <p class="ph-lead">{lead}</p>
+    <div class="ph-actions">
+      <a class="btn btn-lila" href={ctaHref}>{cta}</a>
+      {anrufen && <a class="btn ph-ghost" href={site.phoneHref}><Icon name="phone" />{site.phoneDisplay}</a>}
+    </div>
+    <slot />
+  </div>
+</section>

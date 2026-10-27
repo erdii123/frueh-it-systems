@@ -1,17 +1,21 @@
 ---
 import '../styles/global.css';
+import '../styles/blocks.css';
 import { Image } from 'astro:assets';
 import logo from '../assets/logo.png';
 import site from '../data/site.json';
 import Icon from '../components/Icon.astro';
+import Consent from '../components/Consent.astro';
 
 interface Props {
   title: string;
   description: string;
   noindex?: boolean;
   schema?: object | null;
+  ohneKontakt?: boolean;
 }
-const { title, description, noindex = false, schema = null } = Astro.props;
+const { title, description, noindex = false, schema = null, ohneKontakt = false } = Astro.props;
+const anfrage = ohneKontakt ? '/kontakt/' : '#anfrage';
 const live = process.env.LIVE === '1';
 const robots = !live || noindex ? 'noindex, nofollow' : 'index, follow';
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -19,10 +23,14 @@ const ogImage = new URL('/og-frueh-systems.jpg', Astro.site).href;
 const year = new Date().getFullYear();
 
 const nav = [
-  { href: '/#leistungen', label: 'Leistungen' },
-  { href: '/#preise', label: 'Preise' },
-  { href: '/#ueber-mich', label: 'Über mich' },
+  { href: '/privat/', label: 'Privat' },
+  { href: '/it-support/', label: 'Unternehmen' },
+  { href: '/leistungen/', label: 'Leistungen' },
+  { href: '/fernwartung/', label: 'Fernwartung' },
+  { href: '/ueber-mich/', label: 'Über mich' },
 ];
+const path = Astro.url.pathname;
+const aktiv = (href: string) => path.startsWith(href) ? 'page' : undefined;
 ---
 <!doctype html>
 <html lang="de-CH">
@@ -59,14 +67,14 @@ const nav = [
       </a>
       <nav class="main-nav" aria-label="Hauptnavigation">
         <ul>
-          {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+          {nav.map((n) => <li><a href={n.href} aria-current={aktiv(n.href)}>{n.label}</a></li>)}
         </ul>
       </nav>
       <div class="header-actions">
         <a class="btn header-phone" href={site.phoneHref} aria-label={`Anrufen: ${site.phoneDisplay}`}>
           <Icon name="phone" /><span class="header-phone-nr">{site.phoneDisplay}</span>
         </a>
-        <a class="btn btn-primary header-cta" href="/#anfrage">Anfrage senden</a>
+        <a class="btn btn-primary header-cta" href={anfrage}>Anfrage senden</a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
           <span class="visually-hidden">Menü öffnen</span>
           <svg class="i-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -77,8 +85,9 @@ const nav = [
     <div class="mobile-menu on-dark" id="mobile-menu" hidden>
       <nav class="mm-inner" aria-label="Mobile Navigation">
         <ul class="mm-links">
-          {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
-          <li><a href="/#anfrage">Anfrage senden</a></li>
+          <li><a href="/">Start</a></li>
+          {nav.map((n) => <li><a href={n.href} aria-current={aktiv(n.href)}>{n.label}</a></li>)}
+          <li><a href="/kontakt/">Kontakt</a></li>
         </ul>
         <div class="mm-contact">
           <a class="btn btn-lila" href={site.phoneHref}><Icon name="phone" />Anrufen: {site.phoneDisplay}</a>
@@ -109,6 +118,15 @@ const nav = [
           </ul>
         </div>
         <div>
+          <h2 class="footer-h">Seiten</h2>
+          <ul class="footer-list">
+            <li><a href="/privat/">Computerhilfe privat</a></li>
+            <li><a href="/it-support/">IT-Support Unternehmen</a></li>
+            <li><a href="/preise-unternehmen/">Preise Unternehmen</a></li>
+            <li><a href="/leistungen/">Alle IT-Services</a></li>
+          </ul>
+        </div>
+        <div>
           <h2 class="footer-h">Adresse</h2>
           <p class="small">{site.street}<br />{site.zip} {site.city}</p>
         </div>
@@ -117,6 +135,7 @@ const nav = [
           <ul class="footer-list">
             <li><a href="/impressum/">Impressum</a></li>
             <li><a href={site.privacyUrl}>Datenschutz</a></li>
+            <li><button type="button" class="footer-btn" data-consent-open>Cookie-Einstellungen</button></li>
           </ul>
         </div>
       </div>
@@ -127,6 +146,8 @@ const nav = [
     </div>
   </footer>
 
+  <Consent />
+
   <div class="quickbar" aria-label="Schnellkontakt">
     <a href={site.phoneHref}>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" fill="currentColor"/></svg>
@@ -136,7 +157,7 @@ const nav = [
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.25-.12-1.47-.72-1.7-.8-.22-.09-.39-.13-.55.12-.17.25-.64.8-.78.97-.15.16-.29.18-.54.06a6.7 6.7 0 0 1-3.34-2.92c-.25-.43.25-.4.72-1.34.08-.16.04-.3-.02-.42l-.75-1.82c-.2-.48-.4-.41-.55-.42h-.47a.9.9 0 0 0-.65.3 2.75 2.75 0 0 0-.86 2.04 4.8 4.8 0 0 0 1 2.53 10.9 10.9 0 0 0 4.18 3.7c1.56.67 2.17.73 2.95.62.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.15-1.18-.06-.11-.23-.17-.48-.29z" fill="currentColor"/></svg>
       WhatsApp
     </a>
-    <a href="/#anfrage">Anfrage</a>
+    <a href={anfrage}>Anfrage</a>
   </div>
 
   <script>
@@ -240,17 +261,21 @@ const nav = [
   }
 
   .site-footer { padding-top: var(--s-8); }
-  .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--s-6); padding-bottom: var(--s-6); }
+  .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.1fr 1fr 1fr; gap: var(--s-6); padding-bottom: var(--s-6); }
   .footer-grid :global(.footer-logo) { width: 150px; margin-bottom: var(--s-3); }
   .footer-h { font-size: var(--t-sm); font-weight: 600; color: var(--muted); margin-bottom: var(--s-3); letter-spacing: 0; }
   .footer-list { list-style: none; display: grid; gap: var(--s-2); font-size: var(--t-sm); }
   .footer-list a { text-decoration: none; }
-  .footer-list a:hover { text-decoration: underline; }
+  .footer-list a:hover, .footer-btn:hover { text-decoration: underline; }
+  .footer-btn { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+  .main-nav a[aria-current='page'] { color: var(--ink); font-weight: 600; }
+  .mm-links a[aria-current='page'] { color: var(--lila-2); }
+  @media (max-width: 1180px) { .header-phone { width: var(--h-btn); padding: 0; } .header-phone-nr { display: none; } .main-nav ul { gap: var(--s-4); } }
   .footer-bottom {
     display: flex; justify-content: space-between; gap: var(--s-4); flex-wrap: wrap;
     border-top: 1px solid var(--line); padding-block: var(--s-5);
   }
-  @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 960px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
 
   .quickbar { display: none; }

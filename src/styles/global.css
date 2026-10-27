@@ -109,7 +109,7 @@ ul { margin: 0; padding: 0; }
 /* Abschnitte */
 .section { padding-block: var(--s-8); }
 .section + .section { border-top: 0; }
-main > :first-child:not(.hero) { padding-top: calc(var(--s-8) + 5rem); }
+main > :first-child:not(.hero):not(.page-head) { padding-top: calc(var(--s-8) + 5rem); }
 .section-head { display: grid; gap: var(--s-3); margin-bottom: var(--s-6); max-width: 40rem; }
 .section-head p { color: var(--ink-2); }
 

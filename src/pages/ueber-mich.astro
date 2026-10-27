@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Ueber from '../components/Ueber.astro';
+import Ablauf from '../components/Ablauf.astro';
+import Kontakt from '../components/Kontakt.astro';
+import Icon from '../components/Icon.astro';
+import { seitenSchema } from '../data/seo';
+
+const title = 'Über Nick Früh | 10 Jahre IT-Erfahrung | Früh Systems';
+const description = 'Nick Früh führt Früh Systems: persönliche IT-Betreuung mit 10 Jahren Branchenerfahrung. Verständlich, direkt und zuverlässig, remote oder vor Ort.';
+---
+<Base title={title} description={description} schema={seitenSchema('Über mich', '/ueber-mich/')}>
+  <PageHead
+    crumb="Über mich"
+    titel="Persönliche IT-Betreuung mit klarer Verantwortung."
+    lead="Früh Systems wird von mir, Nick Früh, geführt. Zehn Jahre IT-Praxis zeigen, welche Lösungen im Alltag funktionieren und wo unnötige Komplexität entsteht."
+    cta="Unverbindlich kennenlernen"
+  />
+
+  <Ueber titel="Hinter Ihrer IT steht ein Mensch.">
+    <p>Sie sprechen direkt mit mir, vom ersten Gespräch bis zur Umsetzung. Ich ordne Probleme verständlich ein, bespreche mögliche Wege und starte erst nach einer klaren Abstimmung.</p>
+  </Ueber>
+
+  <Ablauf
+    titel="Drei Grundsätze."
+    schritte={[
+      { t: 'Zuhören und einordnen.', d: 'Was funktioniert nicht, was möchten Sie erreichen?' },
+      { t: 'Verständlich empfehlen.', d: 'Priorität, Vorgehen und möglicher Aufwand.' },
+      { t: 'Nach Freigabe umsetzen.', d: 'Nachvollziehbar umgesetzt und verständlich übergeben.' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="wrap duo">
+      <article class="lila">
+        <Icon name="building" class="aud-icon" />
+        <h3>Unternehmen, KMU und Selbständige</h3>
+        <p>Support, Microsoft 365, Backup, Netzwerk, Sicherheit und Arbeitsplätze. Einzeln oder schrittweise verbessert.</p>
+        <a class="btn btn-primary" href="/it-support/">IT-Support für KMU</a>
+      </article>
+      <article class="mint">
+        <Icon name="home" class="aud-icon" />
+        <h3>Privatpersonen</h3>
+        <p>Hilfe bei PC, E-Mail, Programmen, Geräten und Daten. Verständlich und mit klaren Preisen.</p>
+        <a class="btn btn-primary" href="/privat/">Computerhilfe privat</a>
+      </article>
+    </div>
+  </section>
+
+  <Kontakt titel="Lernen wir uns kennen." lead="Schildern Sie kurz, wobei Ihre IT helfen soll. Ich melde mich mit dem sinnvollsten nächsten Schritt." />
+</Base>

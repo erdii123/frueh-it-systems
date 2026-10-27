@@ -1,0 +1,19 @@
+---
+interface Props { titel?: string; schritte?: { t: string; d: string }[] }
+const {
+  titel = 'Einfach anfangen.',
+  schritte = [
+    { t: 'Sie erzählen.', d: 'Was nicht funktioniert. Fachbegriffe braucht es nicht.' },
+    { t: 'Ich kläre.', d: 'Weg, Aufwand und Kosten, bevor ich beginne.' },
+    { t: 'Ihre IT läuft weiter.', d: 'Nach Ihrer Freigabe, nachvollziehbar übergeben.' },
+  ],
+} = Astro.props;
+---
+<section class="process">
+  <div class="wrap">
+    <h2>{titel}</h2>
+    <ol class="steps" style={`--cols: ${schritte.length}`}>
+      {schritte.map((s) => <li><h3>{s.t}</h3><p>{s.d}</p></li>)}
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+// Grundlage: Datenschutzerklärung frueh-systems.ch, Stand 10.08.2026 (wörtlich).
+// Angepasst für die Netlify-Version: Abschnitt 3 (Hosting, Schriften), Abschnitt 5 (Formular, Felder, Spam-Schutz).
+// Vor Livegang von Nick Früh freizugeben; Stand-Datum erst dann setzen.
+---
+<Base title="Datenschutzerklärung | Früh Systems" description="Datenschutzerklärung von Früh Systems: welche Personendaten beim Besuch der Website und bei einer Kontaktaufnahme bearbeitet werden und welche Rechte Sie haben." ohneKontakt>
+  <section class="section legal">
+    <div class="wrap measure">
+      <h1>Datenschutzerklärung</h1>
+      <p class="lead">Diese Erklärung informiert darüber, welche Personendaten beim Besuch dieser Website und bei einer Kontaktaufnahme bearbeitet werden.</p>
+
+      <h2>1. Verantwortliche Stelle</h2>
+      <p>{site.name}, {site.owner}<br />{site.street}, {site.zip} {site.city}, Schweiz<br /><a href={`mailto:${site.email}`}>{site.email}</a>, <a href={site.phoneHref}>{site.phoneIntl}</a></p>
+
+      <h2>2. Grundsätze der Datenbearbeitung</h2>
+      <p>Früh Systems bearbeitet Personendaten nach dem schweizerischen Datenschutzgesetz und nur soweit dies für den Betrieb der Website, die Beantwortung von Anfragen oder die Erbringung vereinbarter Leistungen erforderlich ist. Daten werden nur so lange aufbewahrt, wie es für den jeweiligen Zweck oder aufgrund gesetzlicher Pflichten nötig ist.</p>
+
+      <h2>3. Bereitstellung und Hosting der Website</h2>
+      <p>Beim Aufruf der Website übermittelt Ihr Browser technisch notwendige Informationen, insbesondere IP-Adresse, Zeitpunkt, angeforderte Adresse, übertragene Datenmenge sowie Angaben zu Browser und Betriebssystem. Diese Daten können in Server- und Sicherheitsprotokollen verarbeitet werden, um die Website auszuliefern, Störungen zu erkennen und Missbrauch abzuwehren.</p>
+      <p>Die Website wird bei Netlify, Inc., 101 2nd Street, San Francisco, CA 94105, USA, gehostet und über deren Netzwerk ausgeliefert. Dabei kann eine Bearbeitung in den USA und weiteren Staaten ausserhalb der Schweiz stattfinden. Netlify nennt dafür unter anderem den Swiss-U.S. Data Privacy Framework und setzt vertragliche und technische Schutzmassnahmen ein.</p>
+      <p>Die Schriften dieser Website werden von der Website selbst geladen. Es findet dafür keine Verbindung zu Google Fonts oder anderen Schriftanbietern statt.</p>
+
+      <h2>4. Einwilligung, Google Analytics und Conversion-Messung</h2>
+      <p>Notwendige Funktionen der Website laufen ohne optionale Cookies. Google Analytics 4 mit der Mess-ID G-JDM51MK6SJ wird erst geladen, wenn Sie der Kategorie «Analytics» oder «Marketing» zustimmen. Dabei können insbesondere Seitenaufrufe, Interaktionen, technische Geräte- und Browserangaben, die ungefähre Region und Conversion-Ereignisse wie Telefon-, E-Mail- oder WhatsApp-Klicks verarbeitet werden. Der Inhalt einer Nachricht, Telefonnummern oder E-Mail-Adressen werden dabei nicht als Ereignisparameter übermittelt.</p>
+      <p>Google-Dienste werden durch Google Ireland Limited bereitgestellt. Eine Bearbeitung durch verbundene Unternehmen in Staaten ausserhalb der Schweiz ist möglich. Die Einbindung verwendet Google Consent Mode; Analyse- und Werbespeicherung sind standardmässig abgelehnt. Bei Ablehnung wird das Google-Tag nicht geladen. Ein künftig konfigurierter Google-Tag-Manager-Container unterliegt derselben Einwilligung. Ihre Auswahl wird für höchstens 180 Tage lokal in Ihrem Browser gespeichert und kann über «Cookie-Einstellungen» im Seitenfuss geändert werden.</p>
+
+      <h2>5. Kontaktformular, E-Mail und Telefon</h2>
+      <p>Wenn Sie das Kontaktformular nutzen, verarbeitet Früh Systems die von Ihnen eingegebenen Angaben, insbesondere Kundentyp, Name, Firma, E-Mail-Adresse, Telefonnummer und Nachricht, zur Bearbeitung Ihrer Anfrage und für allfällige Anschlussfragen. Pflichtfelder sind als solche gekennzeichnet.</p>
+      <p>Formularübermittlungen werden durch Netlify (Netlify Forms) verarbeitet, in den Formulareingängen dieser Website gespeichert und können per E-Mail an Früh Systems weitergeleitet werden. Netlify handelt dabei als Auftragsbearbeiter und kann Daten in den USA verarbeiten; Netlify nennt dafür unter anderem den Swiss-U.S. Data Privacy Framework und vertragliche Schutzmechanismen. Zum Schutz vor Spam enthält das Formular ein für Besucherinnen und Besucher unsichtbares Feld; dafür werden keine zusätzlichen Personendaten erhoben. Bei einer Kontaktaufnahme per E-Mail oder Telefon werden die übermittelten Angaben ebenfalls zur Bearbeitung der Anfrage verwendet; die E-Mail-Kommunikation läuft über Microsoft 365. Angaben werden nur so lange aufbewahrt, wie dies für die Bearbeitung oder aufgrund gesetzlicher Pflichten erforderlich ist.</p>
+
+      <h2>6. WhatsApp und Fernwartung</h2>
+      <p>Bei einem Kontakt über WhatsApp gelten zusätzlich die Datenschutzbestimmungen von WhatsApp beziehungsweise Meta. Nutzen Sie für vertrauliche Informationen vorzugsweise E-Mail oder Telefon.</p>
+      <p>Eine Fernwartung erfolgt nur nach ausdrücklicher Vereinbarung und aktiver Freigabe. Dafür kann Software von AnyDesk eingesetzt werden. Früh Systems erhält nur den für die konkrete Unterstützung freigegebenen Zugriff. Zugangsdaten und Sitzungsinformationen werden nicht länger als notwendig verwendet.</p>
+
+      <h2>7. Externe Links</h2>
+      <p>Beim Öffnen externer Links verlassen Sie diese Website. Ab diesem Zeitpunkt gelten die Bedingungen und Datenschutzbestimmungen des jeweiligen Anbieters. Dies gilt auch für den Link zum Google-Unternehmensprofil und zu den dort veröffentlichten Rezensionen. Auf der Website selbst wird keine Google-Maps-Karte nachgeladen.</p>
+
+      <h2>8. Ihre Rechte</h2>
+      <p>Sie können Auskunft über Ihre bearbeiteten Personendaten sowie deren Berichtigung, Löschung oder Herausgabe verlangen, soweit keine gesetzlichen Gründe entgegenstehen. Wenden Sie sich dafür an die oben genannte Kontaktadresse. Zudem besteht ein Beschwerderecht beim Eidgenössischen Datenschutz- und Öffentlichkeitsbeauftragten.</p>
+
+      <h2>9. Änderungen</h2>
+      <p>Diese Datenschutzerklärung kann angepasst werden, wenn sich die Website, eingesetzte Dienste oder rechtliche Anforderungen ändern. Massgebend ist die jeweils hier veröffentlichte Fassung.</p>
+    </div>
+  </section>
+</Base>

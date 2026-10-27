@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Kacheln from '../components/Kacheln.astro';
+import Ablauf from '../components/Ablauf.astro';
+import Faq from '../components/Faq.astro';
+import Kontakt from '../components/Kontakt.astro';
+import Icon from '../components/Icon.astro';
+import site from '../data/site.json';
+import p from '../data/preise.json';
+import { faqFernwartung } from '../data/faq';
+import { seitenSchema } from '../data/seo';
+
+const title = 'PC-Fernwartung & Remote IT-Support | Früh Systems';
+const description = 'IT-Support per Fernwartung in der ganzen Schweiz. Zugriff nur nach Termin und Ihrer Freigabe, Sie sehen jeden Schritt. Privat ab CHF 90.–, Firmen CHF 140.–/h.';
+---
+<Base title={title} description={description} schema={seitenSchema('Fernwartung', '/fernwartung/', faqFernwartung)}>
+  <PageHead
+    crumb="Fernwartung"
+    titel="Fernwartung. Sicher und direkt."
+    lead="Viele Probleme lassen sich ohne Anfahrt lösen. Nach Termin und Ihrer Freigabe verbinde ich mich, erkläre jeden Schritt und beende danach den Zugriff."
+    cta="Fernwartung anfragen"
+  />
+
+  <section class="trust" style="padding-top: var(--s-7)">
+    <div class="wrap">
+      <div class="note">
+        <Icon name="shield" />
+        <div>
+          <h2>Kein unangekündigter Zugriff.</h2>
+          <p>Öffnen Sie Fernwartungssoftware nur nach vorherigem Kontakt mit mir und nie wegen eines unerwarteten Anrufs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Kacheln
+    titel="Dafür eignet sich Fernwartung"
+    sub="Sie sehen, was geschieht, und behalten die Kontrolle."
+    items={[
+      { icon: 'mail', t: 'E-Mail und Outlook', d: 'Konten, Synchronisation und Fehlermeldungen.' },
+      { icon: 'apps', t: 'Microsoft 365', d: 'Teams, OneDrive, Benutzer und Berechtigungen.' },
+      { icon: 'monitor', t: 'Programme und Updates', d: 'Softwareprobleme, Installationen, Hinweise.' },
+      { icon: 'laptop', t: 'Langsamer PC', d: 'Auslastung, Autostart, Speicher und Ursachen.' },
+      { icon: 'test', t: 'Drucker und Geräte', d: 'Treiber, Einstellungen und Verbindung.' },
+      { icon: 'shield', t: 'Sicherheitsmeldungen', d: 'Verdächtige Hinweise sinnvoll einordnen.' },
+    ]}
+  />
+
+  <Ablauf
+    titel="So läuft eine Fernwartung."
+    schritte={[
+      { t: 'Anfrage senden.', d: 'Problem kurz beschreiben, ohne Passwörter.' },
+      { t: 'Termin und Kosten klären.', d: 'Vorgehen und Abrechnung vorab besprochen.' },
+      { t: 'Zugriff freigeben.', d: 'AnyDesk erst zum vereinbarten Zeitpunkt öffnen.' },
+      { t: 'Lösung nachvollziehen.', d: 'Sie sehen jeden Schritt, danach endet die Sitzung.' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="wrap duo">
+      <article class="white">
+        <h3>Sie behalten die Kontrolle</h3>
+        <ul class="checks">
+          <li>Keine unangekündigten Verbindungen</li>
+          <li>Jeder Schritt bleibt sichtbar</li>
+          <li>Passwörter geben Sie selbst ein</li>
+          <li>Sie können jederzeit beenden</li>
+        </ul>
+        <a class="btn btn-ghost" href={site.anydesk} rel="noopener">AnyDesk herunterladen</a>
+        <p class="small muted">Erst nach vereinbartem Termin, nur von der offiziellen Website.</p>
+      </article>
+      <article class="mint">
+        <h3>Remote nicht möglich?</h3>
+        <p>Für Verkabelung, WLAN-Abdeckung, Geräteaufbau oder einen PC, der nicht startet, ist ein Termin vor Ort sinnvoller. Das klären wir vorab.</p>
+        <ul class="checks"><li>Privat: Fernwartung ab CHF {p.privat.fernwartung.preis}</li><li>Firmen: CHF {p.firma.stunde} pro Stunde</li></ul>
+        <a class="btn btn-primary" href="#anfrage" data-thema="Termin vor Ort">Termin vor Ort anfragen</a>
+      </article>
+    </div>
+  </section>
+
+  <Faq items={faqFernwartung} titel="Das Wichtigste zur Fernwartung." />
+  <Kontakt titel="Bereit für den nächsten Schritt?" lead="Beschreiben Sie das Problem in wenigen Sätzen. Ich kläre, ob Fernwartung passt." />
+</Base>

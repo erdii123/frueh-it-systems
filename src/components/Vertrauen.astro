@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+import site from '../data/site.json';
+---
+<section class="trust" aria-label="Koordination und Sicherheit">
+  <div class="wrap trust-grid">
+    <div class="trust-item">
+      <Icon name="link" />
+      <div>
+        <h2>Schluss mit dem Zuständigkeits-Pingpong.</h2>
+        <p>Ich kläre mit Internetanbieter, Microsoft und Softwarefirma, wer zuständig ist. <a href="/it-support/">IT-Support für KMU</a></p>
+      </div>
+    </div>
+    <div class="trust-item">
+      <Icon name="shield" />
+      <div>
+        <h2>Kein unangekündigter Zugriff.</h2>
+        <p>Öffnen Sie <a href={site.anydesk} rel="noopener">AnyDesk</a> nur zum vereinbarten Termin. <a href="/fernwartung/">So läuft die Fernwartung</a></p>
+      </div>
+    </div>
+  </div>
+</section>

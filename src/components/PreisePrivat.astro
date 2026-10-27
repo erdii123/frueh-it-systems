@@ -1,0 +1,36 @@
+---
+import p from '../data/preise.json';
+---
+<div class="price-grid">
+  <article class="price">
+    <h3>Fernwartung</h3>
+    <p class="amount"><span class="cur">CHF</span>{p.privat.fernwartung.preis}</p>
+    <p class="per">Mindestpauschale, bis 45 Minuten</p>
+    <ul class="checks">
+      <li>PC, E-Mail, Programme</li>
+      <li>Zugriff nur mit Ihrer Freigabe</li>
+      <li>Danach CHF {p.privat.weitere15} je 15 Minuten</li>
+    </ul>
+    <a class="btn btn-ghost" href="#anfrage" data-thema="Fernwartung privat" data-typ="privat">Fernwartung anfragen</a>
+  </article>
+  <article class="price price-dark on-dark">
+    <h3>Vor Ort und Reparatur</h3>
+    <p class="amount"><span class="cur">CHF</span>{p.privat.vorOrt.preis}</p>
+    <p class="per">Mindestpauschale, bis 45 Minuten</p>
+    <ul class="checks">
+      <li>PC, Laptop, WLAN, Drucker</li>
+      <li>Neue Geräte und Datenübernahme</li>
+      <li>Danach CHF {p.privat.weitere15} je 15 Minuten</li>
+    </ul>
+    <a class="btn btn-lila" href="#anfrage" data-thema="Termin vor Ort privat" data-typ="privat">Termin anfragen</a>
+  </article>
+</div>
+<div class="credit">
+  <div>
+    <h3>3 Stunden Support. Flexibel nutzbar.</h3>
+    <p class="small muted">{p.privat.guthaben.gueltig} gültig, in 15-Minuten-Schritten, kein Abo</p>
+  </div>
+  <p class="credit-price">CHF {p.privat.guthaben.preis}</p>
+  <a class="btn btn-ghost" href="#anfrage" data-thema="3-Stunden-Guthaben" data-typ="privat">Guthaben anfragen</a>
+</div>
+<p class="fine">Anfahrt, Hardware, Lizenzen und Material nach Rücksprache separat.</p>
