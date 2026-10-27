@@ -6,6 +6,9 @@ Besucher in wenigen Sekunden auf den richtigen Weg bringen: privat oder Firma, F
 ## Stand Runde 01 (27.10.2026)
 Mischung mit Nicks Demo-Seite (demonick.vercel.app): dunkler Hero mit Glasbild, schwebender Header, Zielgruppen-Karten Lila/Mint, Leistungs-Tabs mit Mini-Diagramm, Preis-Umschalter mit Rechner, Ablauf auf Mint, dunkler Kontaktblock, grosse Wortmarke im Footer. Fakten und Preise gelten nach frueh-systems.ch. Keine Versal-Etiketten, kein WebGL.
 
+## Stand Runde 02 (27.10.2026)
+Einheitliche Masse: Knöpfe 48 px (`--h-btn`), Wahlfelder 44 px (`--h-chip`), Innenabstand Karten `--pad-card`, Navy-Blöcke so breit wie Header und Karten (`.panel`). Fallfinder-Fälle als 2-Spalten-Raster gleich grosser Kacheln. Mobiles Menü als Vollbild in Navy.
+
 ## Prägendes Element
 Der **Fallfinder** im Hero: Für wen? → Was funktioniert nicht? → passender Weg mit Preis und vorausgefülltem Anfrageknopf. Der Grün-Violett-Verlauf aus dem Logo zeigt als Linie den Fortschritt. Alles andere bleibt ruhig.
 
@@ -38,5 +41,5 @@ Abstände `--s-1` bis `--s-9` (0.25 bis 7 rem). Radien: 6 px Felder, 12 px Boxen
 - Preise sind sichtbar. Wenig Text: Häkchen statt Sätze, Tabs und Umschalter statt langer Listen.
 - Ich-Form, Sie-Anrede, Schweizer Schreibweise (ss).
 - Nummern nur bei echten Abläufen. Keine Versal-Etiketten.
-- Bewegung nur als Antwort auf eine Auswahl, bei reduzierter Bewegung aus.
+- Bewegung: ruhige Endlos-Animation nur im Hero-Hintergrund (Glasbild, Lichtschimmer, nur transform/opacity), Schalter «Bewegung», pausiert ausserhalb des Sichtbereichs, aus bei reduzierter Bewegung. Sonst nur als Antwort auf eine Auswahl.
 - Mobile: feste Schnellkontaktleiste unten (Anrufen, WhatsApp, Anfrage).

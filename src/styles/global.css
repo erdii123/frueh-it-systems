@@ -38,6 +38,8 @@
   --wrap: 72rem;
   --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
   --r-sm: 6px; --r-md: 12px; --r-lg: 20px; --r-xl: 28px;
+  --pad-card: clamp(1.25rem, 0.9rem + 1.6vw, 2.25rem);
+  --h-btn: 48px; --h-chip: 44px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -79,8 +81,8 @@ ul { margin: 0; padding: 0; }
 /* Knöpfe */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
-  min-height: 48px; padding: 0 1.35rem; border-radius: 999px; border: 1.5px solid transparent;
-  font: inherit; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer;
+  min-height: var(--h-btn); padding: 0 1.35rem; border-radius: 999px; border: 1.5px solid transparent;
+  font: inherit; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; white-space: nowrap;
   transition: background-color .15s, border-color .15s, color .15s;
 }
 .btn-primary { background: var(--ink); color: #fff; }
@@ -114,3 +116,7 @@ main > :first-child:not(.hero) { padding-top: calc(var(--s-8) + 5rem); }
 @media (max-width: 640px) {
   .section { padding-block: var(--s-7); }
 }
+
+/* Dunkle Blöcke: gleiche Breite wie Header und Karten */
+.panel { width: min(100% - 2 * var(--gutter), var(--wrap)); margin-inline: auto; border-radius: var(--r-xl); padding-inline: var(--pad-card); }
+.panel > .wrap { width: 100%; }
